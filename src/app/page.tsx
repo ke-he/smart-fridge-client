@@ -6,8 +6,11 @@ import { Separator } from '@radix-ui/react-select';
 import { ListPlus, Search } from 'lucide-react';
 import ItemTypeSelect from '@/components/item-type-select';
 import { DatePicker } from '@/components/ui/date-picker';
+import { getItems } from '@service';
 
-export default function Home() {
+export default async function Home() {
+  const items = await getItems();
+
   return (
     <div className="flex h-screen w-screen flex-col">
       <header className="flex w-screen justify-start p-5">
@@ -24,15 +27,14 @@ export default function Home() {
       <div className="flex w-screen justify-center p-5">
         <ScrollArea className="h-72 w-screen rounded-md border">
           <div className="p-4">
-            <Separator className="my-2" />
-            <div key="test" className="text-sm">
-              Test
-            </div>
-            <Separator className="my-2" />
-            <div key="test" className="text-sm">
-              Test
-            </div>
-            <Separator className="my-2" />
+            {items.map((item) => (
+              <>
+                <div key={item.id} className="text-sm">
+                  {item.name}
+                </div>
+                <Separator key={item.id + '-seperate'} className="my-2" />
+              </>
+            ))}
           </div>
         </ScrollArea>
       </div>
