@@ -1,5 +1,7 @@
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -8,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@radix-ui/react-select';
 import { ListPlus, Search } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export default function Home() {
     <div className="flex flex-col w-screen h-screen">
       <header className="flex justify-start w-screen p-5">
         <h1 className="text-3xl font-bold">Smart Fridge Manager</h1>
+        <ThemeToggle />
       </header>
       <div className="w-screen flex gap-2 p-5">
         <Input placeholder="Test" />
