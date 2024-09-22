@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { getItems } from '@/lib/services/items';
 import { Separator } from '@radix-ui/react-select';
 import { ListPlus, Search } from 'lucide-react';
-import { addItem, getItems } from './actions';
+import { addItem } from './actions';
 
 export default async function Home() {
   const items = await getItems();
