@@ -1,3 +1,5 @@
+'use server';
+
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +12,6 @@ import { getItems } from '@service';
 
 export default async function Home() {
   const items = await getItems();
-
   return (
     <div className="flex h-screen w-screen flex-col">
       <header className="flex w-screen justify-start p-5">

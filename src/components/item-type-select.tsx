@@ -1,3 +1,5 @@
+'use server';
+
 import {
   Select,
   SelectContent,
@@ -6,8 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { getItemTypes } from '@service';
 
-export default function ItemTypeSelect() {
+export default async function ItemTypeSelect() {
+  const types = await getItemTypes();
   return (
     <Select name="type">
       <SelectTrigger className="w-[180px]">
@@ -15,11 +19,11 @@ export default function ItemTypeSelect() {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          {types.map((type) => (
+            <SelectItem key={type.id} value={type.id.toString()}>
+              {type.name}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
