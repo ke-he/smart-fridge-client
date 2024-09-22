@@ -5,6 +5,7 @@ export default function Home() {
       <p className="text-lg text-center">
         This is a Next.js project with Tailwind CSS and TypeScript.
       </p>
+      test
     </div>
   );
 }
