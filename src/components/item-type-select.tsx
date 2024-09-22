@@ -9,7 +9,7 @@ import {
 
 export default function ItemTypeSelect() {
   return (
-    <Select>
+    <Select name="type">
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a Type" />
       </SelectTrigger>
