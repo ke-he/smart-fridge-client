@@ -9,20 +9,20 @@ import { DatePicker } from '@/components/ui/date-picker';
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-screen h-screen">
-      <header className="flex justify-start w-screen p-5">
+    <div className="flex h-screen w-screen flex-col">
+      <header className="flex w-screen justify-start p-5">
         <h1 className="text-3xl font-bold">Smart Fridge Manager</h1>
         <ThemeToggle />
       </header>
-      <div className="w-screen flex gap-2 p-5">
+      <div className="flex w-screen gap-2 p-5">
         <Input placeholder="Test" />
         <ItemTypeSelect />
         <Button>
           <Search />
         </Button>
       </div>
-      <div className="w-screen p-5 flex justify-center">
-        <ScrollArea className="w-screen h-72 rounded-md border">
+      <div className="flex w-screen justify-center p-5">
+        <ScrollArea className="h-72 w-screen rounded-md border">
           <div className="p-4">
             <Separator className="my-2" />
             <div key="test" className="text-sm">
@@ -36,13 +36,17 @@ export default function Home() {
           </div>
         </ScrollArea>
       </div>
-      <div className="flex align-bottom gap-2 p-5">
-        <Input placeholder="New Item Name" />
-        <DatePicker />
-        <ItemTypeSelect />
-        <Button>
-          <ListPlus />
-        </Button>
+      <div className="flex w-screen flex-wrap gap-2 p-5 align-bottom">
+        <div className="flex gap-2 w-screen">
+          <Input placeholder="New Item Name" />
+          <DatePicker placeholder="Expiraton date" />
+        </div>
+        <div className="flex w-screen justify-between gap-2">
+          <ItemTypeSelect />
+          <Button>
+            <ListPlus />
+          </Button>
+        </div>
       </div>
     </div>
   );
