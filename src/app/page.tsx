@@ -1,16 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@radix-ui/react-select';
 import { ListPlus, Search } from 'lucide-react';
+import ItemTypeSelect from '@/components/item-type-select';
+import { DatePicker } from '@/components/ui/date-picker';
 
 export default function Home() {
   return (
@@ -20,29 +14,19 @@ export default function Home() {
       </header>
       <div className="w-screen flex gap-2 p-5">
         <Input placeholder="Test" />
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <ItemTypeSelect />
         <Button>
-          <Search size={20} className="mr-1.5" />
-          Search
+          <Search />
         </Button>
       </div>
       <div className="w-screen p-5 flex justify-center">
         <ScrollArea className="w-screen h-72 rounded-md border">
           <div className="p-4">
-            <h2 className="mb-4 font-medium leading-none">Items in stock</h2>
+            <Separator className="my-2" />
+            <div key="test" className="text-sm">
+              Test
+            </div>
+            <Separator className="my-2" />
             <div key="test" className="text-sm">
               Test
             </div>
@@ -52,20 +36,8 @@ export default function Home() {
       </div>
       <div className="flex align-bottom gap-2 p-5">
         <Input placeholder="New Item Name" />
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <DatePicker />
+        <ItemTypeSelect />
         <Button>
           <ListPlus />
         </Button>
