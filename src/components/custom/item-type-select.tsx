@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@components';
 import { getItemTypes } from '@service';
 
 export default async function ItemTypeSelect() {

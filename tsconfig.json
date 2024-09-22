@@ -21,7 +21,8 @@
       "@/*": ["./src/*"],
       "@lib/database": ["./src/lib/database"],
       "@lib/common": ["./src/lib/common"],
-      "@service": ["./src/service"]
+      "@service": ["./src/service"],
+      "@components": ["./src/components"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

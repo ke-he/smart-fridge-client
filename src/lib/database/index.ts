@@ -8,3 +8,4 @@ export * from './table/link/user-home.link-table';
 export * from './table/link/item-type-home.link-table';
 export * from './table/link/home-fridge.link-table';
 export * from './table/link/item-home.link-table';
+export * from './service/database.service';

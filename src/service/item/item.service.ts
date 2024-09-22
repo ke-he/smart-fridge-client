@@ -5,9 +5,9 @@ import {
   ITEM_TYPE_TABLE_NAME,
   ItemTable,
   ItemTypeTable,
+  DatabaseService,
 } from '@lib/database';
 import { ServiceInterface } from '@lib/common';
-import { DatabaseService } from '@/lib/database/service/database.service';
 
 class ItemService extends ServiceInterface {
   static async getItems(): Promise<ItemTable[]> {

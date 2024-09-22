@@ -1,14 +1,16 @@
 'use server';
 
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@radix-ui/react-select';
 import { ListPlus, Search } from 'lucide-react';
-import ItemTypeSelect from '@/components/item-type-select';
-import { DatePicker } from '@/components/ui/date-picker';
 import { getItems } from '@service';
+import {
+  Input,
+  ThemeToggle,
+  Button,
+  ScrollArea,
+  Separator,
+  DatePicker,
+} from '@components';
+import ItemTypeSelect from '@/components/custom/item-type-select';
 
 export default async function Home() {
   const items = await getItems();
