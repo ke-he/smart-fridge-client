@@ -9,11 +9,33 @@ import {
 } from '@lib/database';
 import { ServiceInterface } from '@lib/common';
 
+export interface ItemsDto extends ItemTable {
+  count: number;
+}
+
+export interface ItemsDtoFilter {
+  name: string;
+  type: number;
+}
+
 class ItemService extends ServiceInterface {
-  static async getItems(): Promise<ItemTable[]> {
-    return DatabaseService.getInstance()
-      .table<ItemTable>(ITEM_TABLE_NAME)
-      .select('*');
+  static async getItems(search?: ItemsDtoFilter): Promise<ItemsDto[]> {
+    const query = DatabaseService.getInstance()
+      .table<ItemsDto>(ITEM_TABLE_NAME)
+      .select('*', {
+        count: DatabaseService.getInstance().raw('COUNT(*)'),
+      })
+      .groupBy('id');
+
+    if (search?.name) {
+      void query.where('name', 'like', `%${search.name}%`);
+    }
+
+    if (search?.type) {
+      void query.where('type', search.type);
+    }
+
+    return query;
   }
 
   static async getItemTypes(): Promise<ItemTypeTable[]> {
@@ -23,5 +45,6 @@ class ItemService extends ServiceInterface {
   }
 }
 
-export const getItems = async () => await ItemService.getItems();
+export const getItems = async (search?: ItemsDtoFilter) =>
+  await ItemService.getItems(search);
 export const getItemTypes = async () => await ItemService.getItemTypes();
