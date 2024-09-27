@@ -1,5 +1,5 @@
-'use server';
+'use client';
 
-export async function DisplayCount({ count }: { count: number }) {
+export default function DisplayCount({ count }: { count: number }) {
   return <span>{count}x</span>;
 }

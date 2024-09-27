@@ -1,5 +1,5 @@
-'use server';
+'use client';
 
-export default async function DisplayDate({ date }: { date: Date }) {
+export default function DisplayDate({ date }: { date: Date }) {
   return <span>{new Date(date).toLocaleDateString()}</span>;
 }
