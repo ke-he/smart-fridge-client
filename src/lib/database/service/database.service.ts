@@ -8,7 +8,7 @@ export class DatabaseService {
   private static instance: DatabaseService;
 
   private readonly database: Knex;
-  private transactionContext: Knex.Transaction | null;
+  private readonly transactionContext: Knex.Transaction | null;
 
   private constructor() {
     this.database = _databaseService;
@@ -39,5 +39,9 @@ export class DatabaseService {
         Record<string, T>[]
       >;
     }
+  }
+
+  public raw(sql: string) {
+    return this.database.raw(sql);
   }
 }
