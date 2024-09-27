@@ -1,13 +1,16 @@
 'use server';
 
 import AddItemForm from '@/components/items/add';
-import { ItemsContextProvider } from '@/components/items/context';
 import { ItemList } from '@/components/items/list';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { getItems } from '@/lib/services/items';
 
-export default async function Home() {
-  const items = await getItems();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Record<string, string>;
+}) {
+  const items = await getItems(searchParams);
 
   return (
     <div className="flex h-screen w-screen flex-col">
@@ -15,10 +18,8 @@ export default async function Home() {
         <h1 className="text-3xl font-bold">Smart Fridge Manager</h1>
         <ThemeToggle />
       </header>
-      <ItemsContextProvider items={items}>
-        <ItemList />
-        <AddItemForm />
-      </ItemsContextProvider>
+      <ItemList items={items} />
+      <AddItemForm />
     </div>
   );
 }

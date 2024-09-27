@@ -23,6 +23,7 @@ export const getItems = async ({
   query?: string;
   type?: string;
 } = {}) => {
+  console.log({ query, type });
   return db.query.items
     .findMany()
     .then((res) =>
