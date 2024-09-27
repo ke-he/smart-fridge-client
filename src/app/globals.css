@@ -91,3 +91,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.w-100 {
+  width: 100%;
+}
