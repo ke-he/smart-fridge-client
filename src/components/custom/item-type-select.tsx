@@ -12,12 +12,14 @@ import { ItemTypeTable } from '@lib/database';
 
 export function ItemTypeSelect({
   types,
+  nullable = false,
   className,
   name,
   value,
   onValueChange,
 }: {
   types: ItemTypeTable[];
+  nullable?: boolean;
   className?: string;
   name?: string;
   value?: string;
@@ -31,7 +33,7 @@ export function ItemTypeSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value={null}>All</SelectItem>
+            {nullable && <SelectItem value={null}>All</SelectItem>}
             {types.map((type) => (
               <SelectItem key={type.id} value={type.id.toString()}>
                 {type.name}

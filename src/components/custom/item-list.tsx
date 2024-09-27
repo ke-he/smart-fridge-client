@@ -39,6 +39,7 @@ export function ItemList({
         />
         <ItemTypeSelect
           types={types}
+          nullable={true}
           className="w-[180px]"
           name="type-search"
           value={type}
