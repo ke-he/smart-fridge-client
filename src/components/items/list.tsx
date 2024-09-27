@@ -3,34 +3,26 @@
 import ItemTypeSelect from '@/components/item-type-select';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useWritableSearchParams } from '@/lib/hooks/useWritableSearchParams';
 import { Item } from '@/lib/services/items';
 import { Separator } from '@radix-ui/react-select';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 export function ItemList({ items }: { items: Item[] }) {
-  const { replace } = useRouter();
-  const params = useSearchParams();
+  const { searchParams, setParam } = useWritableSearchParams();
 
   return (
     <>
       <Input
         placeholder="Test"
         name="query"
-        value={params.get('query') || ''}
-        onChange={(e) => {
-          const query = e.target.value;
-          const params = new URLSearchParams();
-          if (!query) {
-            params.delete('query');
-          } else {
-            params.set('query', query);
-          }
-          const url = new URL(window.location.href);
-          url.search = params.toString();
-          replace(url.toString());
-        }}
+        value={searchParams.get('query') || ''}
+        onChange={(e) => setParam('query', e.target.value)}
       />
-      <ItemTypeSelect name="itemType" value={params.get('type') || ''} />
+      <ItemTypeSelect
+        name="itemType"
+        value={searchParams.get('type') || ''}
+        onValueChange={(value) => setParam('type', value)}
+      />
       <div className="flex w-screen justify-center p-5">
         <ScrollArea className="h-72 w-screen rounded-md border">
           <div className="p-4">
