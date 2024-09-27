@@ -5,6 +5,7 @@ import { getItems, getItemTypes, ItemsDtoFilter } from '@service';
 import { Input, ThemeToggle, Button, DatePicker } from '@components';
 import { ItemTypeSelect } from '@/components/custom/item-type-select';
 import { ItemList } from '@/components/custom/item-list';
+import ItemAdd from '@/components/custom/item-add';
 
 export default async function Home({
   searchParams,
@@ -24,16 +25,7 @@ export default async function Home({
         <ThemeToggle />
       </header>
       <ItemList items={items} types={itemTypes} />
-      <div className="flex gap-2 p-5 pb-2">
-        <Input className="w-100" placeholder="New Item Name" />
-        <DatePicker className="w-100" placeholder="Expiraton date" />
-      </div>
-      <div className="flex gap-2 p-5 pt-2">
-        <ItemTypeSelect types={itemTypes} className="w-100" />
-        <Button className="w-100">
-          <ListPlus />
-        </Button>
-      </div>
+      <ItemAdd types={itemTypes} />
     </div>
   );
 }

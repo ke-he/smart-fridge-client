@@ -8,6 +8,7 @@ import {
   DatabaseService,
 } from '@lib/database';
 import { ServiceInterface } from '@lib/common';
+import { revalidatePath } from 'next/cache';
 
 export interface ItemsDto extends ItemTable {
   count: number;
@@ -38,6 +39,14 @@ class ItemService extends ServiceInterface {
     return query;
   }
 
+  static async addItem(item: Omit<ItemTable, 'id'>): Promise<void> {
+    await DatabaseService.getInstance()
+      .table<ItemTable>(ITEM_TABLE_NAME)
+      .insert(item);
+
+    revalidatePath('/');
+  }
+
   static async getItemTypes(): Promise<ItemTypeTable[]> {
     return DatabaseService.getInstance()
       .table<ItemTypeTable>(ITEM_TYPE_TABLE_NAME)
@@ -48,3 +57,5 @@ class ItemService extends ServiceInterface {
 export const getItems = async (search?: ItemsDtoFilter) =>
   await ItemService.getItems(search);
 export const getItemTypes = async () => await ItemService.getItemTypes();
+export const addItem = async (item: Omit<ItemTable, 'id'>) =>
+  await ItemService.addItem(item);
