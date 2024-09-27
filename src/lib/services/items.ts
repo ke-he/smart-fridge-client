@@ -16,7 +16,23 @@ const insertUserSchema = createInsertSchema(schema.items, {
   ),
 });
 
-export const getItems = async () => db.query.items.findMany();
+export const getItems = async ({
+  query,
+  type,
+}: {
+  query?: string;
+  type?: string;
+} = {}) => {
+  return db.query.items
+    .findMany()
+    .then((res) =>
+      !query
+        ? res
+        : res.filter((item) =>
+            item.name.toLowerCase().includes(query.toLowerCase()),
+          ),
+    );
+};
 
 export const parseInsertData = async (
   item: Partial<Record<keyof Item, unknown>>,
