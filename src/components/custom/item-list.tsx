@@ -54,13 +54,19 @@ export function ItemList({
                   key={item.id + '-wrapper'}
                   className="flex justify-between"
                 >
-                  <div key={item.id} className="text-sm">
+                  <div key={item.id} className="text-sm w-100 text-left">
                     {item.name}
                   </div>
-                  <div key={item.id + '-count'} className="text-xs">
+                  <div
+                    key={item.id + '-count'}
+                    className="text-xs w-100 text-center"
+                  >
                     <DisplayCount count={item.count} />
                   </div>
-                  <div key={item.id + '-expiration'} className="text-xs">
+                  <div
+                    key={item.id + '-expiration'}
+                    className="text-xs w-100 text-right"
+                  >
                     <DisplayDate date={item.expiration_date} />
                   </div>
                 </div>
