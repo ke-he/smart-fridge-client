@@ -13,8 +13,6 @@ export default async function Home({
 }) {
   const items = (await getItems(searchParams)) || [];
   const itemTypes = (await getItemTypes()) || [];
-  console.log(items);
-  console.log(itemTypes);
 
   return (
     <div className="flex h-screen w-screen flex-col">
