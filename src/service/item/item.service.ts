@@ -27,12 +27,12 @@ class ItemService extends ServiceInterface {
       })
       .groupBy('id');
 
-    if (search?.name) {
+    if (search?.name != null) {
       void query.where('name', 'like', `%${search.name}%`);
     }
 
-    if (search?.type) {
-      void query.where('type', search.type);
+    if (search?.type != null) {
+      void query.where('item_type_id', search.type);
     }
 
     return query;

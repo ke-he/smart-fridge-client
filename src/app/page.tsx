@@ -1,19 +1,20 @@
 'use server';
 
 import { ListPlus } from 'lucide-react';
-import { getItems, ItemsDtoFilter } from '@service';
+import { getItems, getItemTypes, ItemsDtoFilter } from '@service';
 import { Input, ThemeToggle, Button, DatePicker } from '@components';
-import ItemTypeSelect from '@/components/custom/item-type-select';
-import ItemList from '@/components/custom/item-list';
-
-export type SearchParamsInterface = ItemsDtoFilter;
+import { ItemTypeSelect } from '@/components/custom/item-type-select';
+import { ItemList } from '@/components/custom/item-list';
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: SearchParamsInterface;
+  searchParams: ItemsDtoFilter;
 }) {
-  const items = await getItems(searchParams);
+  const items = (await getItems(searchParams)) || [];
+  const itemTypes = (await getItemTypes()) || [];
+  console.log(items);
+  console.log(itemTypes);
 
   return (
     <div className="flex h-screen w-screen flex-col">
@@ -24,13 +25,13 @@ export default async function Home({
         </h1>
         <ThemeToggle />
       </header>
-      <ItemList items={items} />
+      <ItemList items={items} types={itemTypes} />
       <div className="flex gap-2 p-5 pb-2">
         <Input className="w-100" placeholder="New Item Name" />
         <DatePicker className="w-100" placeholder="Expiraton date" />
       </div>
       <div className="flex gap-2 p-5 pt-2">
-        <ItemTypeSelect className="w-100" />
+        <ItemTypeSelect types={itemTypes} className="w-100" />
         <Button className="w-100">
           <ListPlus />
         </Button>

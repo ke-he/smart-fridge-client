@@ -1,17 +1,24 @@
 'use client';
 
 import { Input, ScrollArea, Separator } from '@components';
-import ItemTypeSelect from '@/components/custom/item-type-select';
-import { SearchParamsInterface } from '@/app/page';
+import { ItemTypeSelect } from '@/components/custom/item-type-select';
 import { useWritableSearchParams } from '@/lib/common/hooks/useWritableSearchParams';
-import { useDebounce } from '@/lib/common/hooks/useDebounce';
-import { DisplayCount } from '@/components/custom/display-count';
+import DisplayCount from '@/components/custom/display-count';
 import DisplayDate from '@/components/custom/display-date';
-import { ItemsDto } from '@service';
+import { ItemsDto, ItemsDtoFilter } from '@service';
+import { ItemTypeTable } from '@lib/database';
 
-export default function ItemList({ items }: { items: ItemsDto[] }) {
-  const { searchParams, setParam } =
-    useWritableSearchParams<SearchParamsInterface>();
+export function ItemList({
+  items,
+  types,
+}: {
+  items: ItemsDto[];
+  types: ItemTypeTable[];
+}) {
+  const { searchParams, setParam } = useWritableSearchParams<ItemsDtoFilter>();
+
+  const name = searchParams.get('name') || '';
+  const type = searchParams.get('type') || '';
 
   const handleTypeChange = (value: string) => {
     setParam('type', value);
@@ -21,21 +28,20 @@ export default function ItemList({ items }: { items: ItemsDto[] }) {
     setParam('name', value);
   };
 
-  const debouncedNameChange = useDebounce(handleNameChange, 500);
-
   return (
     <>
       <div className="flex w-screen gap-2 p-5">
         <Input
           name="name-search"
           placeholder="Search item..."
-          value={searchParams.get('name') || ''}
-          onChange={(e) => debouncedNameChange(e.target.value)}
+          value={name}
+          onChange={(e) => handleNameChange(e.target.value)}
         />
         <ItemTypeSelect
+          types={types}
           className="w-[180px]"
           name="type-search"
-          value={searchParams.get('type') || ''}
+          value={type}
           onValueChange={handleTypeChange}
         />
       </div>
