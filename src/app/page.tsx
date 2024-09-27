@@ -1,9 +1,7 @@
 'use server';
 
-import { ListPlus } from 'lucide-react';
 import { getItems, getItemTypes, ItemsDtoFilter } from '@service';
-import { Input, ThemeToggle, Button, DatePicker } from '@components';
-import { ItemTypeSelect } from '@/components/custom/item-type-select';
+import { ThemeToggle } from '@components';
 import { ItemList } from '@/components/custom/item-list';
 import ItemAdd from '@/components/custom/item-add';
 
