@@ -1,4 +1,4 @@
-'use server';
+'use client';
 
 import {
   Select,
@@ -8,20 +8,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components';
-import { getItemTypes } from '@service';
+import { ItemTypeTable } from '@lib/database';
 
-export default async function ItemTypeSelect({
+export function ItemTypeSelect({
+  types,
   className,
   name,
   value,
   onValueChange,
 }: {
+  types: ItemTypeTable[];
   className?: string;
   name?: string;
   value?: string;
   onValueChange?: (value: string) => void;
 }) {
-  const types = await getItemTypes();
   return (
     <div className={className}>
       <Select name={name} value={value} onValueChange={onValueChange}>
@@ -30,6 +31,7 @@ export default async function ItemTypeSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            <SelectItem value={null}>All</SelectItem>
             {types.map((type) => (
               <SelectItem key={type.id} value={type.id.toString()}>
                 {type.name}
