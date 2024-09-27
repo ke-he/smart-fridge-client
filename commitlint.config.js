@@ -4,7 +4,16 @@ module.exports = {
     'scope-enum': [
       2,
       'always',
-      ['*', 'database', 'common', 'service', 'api', 'components', 'app'],
+      [
+        '*',
+        'database',
+        'common',
+        'service',
+        'api',
+        'components',
+        'app',
+        'hooks',
+      ],
     ],
     'scope-empty': [2, 'never'],
     'type-enum': [
