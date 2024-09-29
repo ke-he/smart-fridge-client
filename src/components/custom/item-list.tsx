@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { Input, ScrollArea, Separator } from '@components';
 import { ItemTypeSelect } from '@/components/custom/item-type-select';
 import { useWritableSearchParams } from '@/lib/common/hooks/useWritableSearchParams';
@@ -50,11 +51,8 @@ export function ItemList({
         <ScrollArea className="h-72 w-screen rounded-md border">
           <div className="p-4">
             {items.map((item) => (
-              <>
-                <div
-                  key={item.id + '-wrapper'}
-                  className="flex justify-between"
-                >
+              <Fragment key={item.id}>
+                <div className="flex justify-between">
                   <div key={item.id} className="text-sm w-100 text-left">
                     {item.name}
                   </div>
@@ -71,8 +69,8 @@ export function ItemList({
                     <DisplayDate date={item.expiration_date} />
                   </div>
                 </div>
-                <Separator key={item.id + '-separator'} className="my-2" />
-              </>
+                <Separator className="my-2" />
+              </Fragment>
             ))}
           </div>
         </ScrollArea>
