@@ -6,6 +6,8 @@ import {
   ItemTable,
   ItemTypeTable,
   DatabaseService,
+  ItemHomeLinkTable,
+  ITEM_HOME_LINK_TABLE_NAME,
 } from '@lib/database';
 import { ServiceInterface } from '@lib/common';
 import { revalidatePath } from 'next/cache';
@@ -52,10 +54,23 @@ class ItemService extends ServiceInterface {
       .table<ItemTypeTable>(ITEM_TYPE_TABLE_NAME)
       .select('*');
   }
+
+  static async increaseItem(id: number): Promise<void> {
+    await DatabaseService.getInstance()
+      .table<ItemHomeLinkTable>(ITEM_HOME_LINK_TABLE_NAME)
+      .insert({ item_id: id, home_id: 1 });
+
+    revalidatePath('/');
+  }
 }
 
 export const getItems = async (search?: ItemsDtoFilter) =>
   await ItemService.getItems(search);
+
 export const getItemTypes = async () => await ItemService.getItemTypes();
+
 export const addItem = async (item: Omit<ItemTable, 'id'>) =>
   await ItemService.addItem(item);
+
+export const increaseItem = async (id: number) =>
+  await ItemService.increaseItem(id);

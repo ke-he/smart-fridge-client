@@ -25,6 +25,7 @@ export function ItemTypeSelect({
   value?: string;
   onValueChange?: (value: string) => void;
 }) {
+  // the value null error is wrong, it is possible to have a null value
   return (
     <div className={className}>
       <Select name={name} value={value} onValueChange={onValueChange}>

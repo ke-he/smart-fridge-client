@@ -21,7 +21,7 @@
       "@/*": ["./src/*"],
       "@lib/database": ["./src/lib/database"],
       "@lib/common": ["./src/lib/common"],
-      "@service": ["./src/service"],
+      "@service/item": ["./src/service/item"],
       "@components": ["./src/components"]
     }
   },

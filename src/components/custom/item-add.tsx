@@ -1,13 +1,28 @@
-'use server';
+'use client';
 
 import { Button, DatePicker, Input, ItemTypeSelect } from '@components';
 import { ListPlus } from 'lucide-react';
-import { ItemTypeTable } from '@lib/database';
-import { addItem } from '@service';
+import { useItemContext } from '@/contexts/item.provider';
 
-export default async function ItemAdd({ types }: { types: ItemTypeTable[] }) {
-  const handleAddItem = async (formData: FormData) => {
-    'use server';
+export default function ItemAdd() {
+  // const handleAddItem = async (formData: FormData) => {
+  //   'use server';
+  //   const itemName = formData.get('itemName') as string;
+  //   const itemExpirationDate = formData.get('itemExpirationDate') as string;
+  //   const itemType = formData.get('itemType') as string;
+  //
+  //   await addItem({
+  //     name: itemName,
+  //     expiration_date: new Date(itemExpirationDate),
+  //     item_type_id: parseInt(itemType),
+  //   });
+  // };
+
+  const { types, addItem } = useItemContext();
+
+  const handleAddItem = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const itemName = formData.get('itemName') as string;
     const itemExpirationDate = formData.get('itemExpirationDate') as string;
     const itemType = formData.get('itemType') as string;
@@ -20,7 +35,7 @@ export default async function ItemAdd({ types }: { types: ItemTypeTable[] }) {
   };
 
   return (
-    <form action={handleAddItem}>
+    <form onSubmit={handleAddItem}>
       <div className="flex gap-2 p-5 pb-2">
         <Input name="itemName" className="w-100" placeholder="New Item Name" />
         <DatePicker

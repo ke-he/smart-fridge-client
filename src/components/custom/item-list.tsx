@@ -6,17 +6,12 @@ import { ItemTypeSelect } from '@/components/custom/item-type-select';
 import { useWritableSearchParams } from '@/lib/common/hooks/useWritableSearchParams';
 import DisplayCount from '@/components/custom/display-count';
 import DisplayDate from '@/components/custom/display-date';
-import { ItemsDto, ItemsDtoFilter } from '@service';
-import { ItemTypeTable } from '@lib/database';
+import { ItemsDtoFilter } from '@service/item';
+import { useItemContext } from '@/contexts/item.provider';
 
-export function ItemList({
-  items,
-  types,
-}: {
-  items: ItemsDto[];
-  types: ItemTypeTable[];
-}) {
+export function ItemList() {
   const { searchParams, setParam } = useWritableSearchParams<ItemsDtoFilter>();
+  const { items, increaseItem, types } = useItemContext();
 
   const name = searchParams.get('name') || '';
   const type = searchParams.get('type') || '';
@@ -27,6 +22,10 @@ export function ItemList({
 
   const handleNameChange = (value: string) => {
     setParam('name', value);
+  };
+
+  const handleIncreaseItem = async (id: number) => {
+    await increaseItem(id);
   };
 
   return (
@@ -52,7 +51,10 @@ export function ItemList({
           <div className="p-4">
             {items.map((item) => (
               <Fragment key={item.id}>
-                <div className="flex justify-between">
+                <div
+                  className="flex justify-between"
+                  onClick={() => handleIncreaseItem(item.id)}
+                >
                   <div key={item.id} className="text-sm w-100 text-left">
                     {item.name}
                   </div>
