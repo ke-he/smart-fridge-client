@@ -5,19 +5,6 @@ import { ListPlus } from 'lucide-react';
 import { useItemContext } from '@/contexts/item.provider';
 
 export default function ItemAdd() {
-  // const handleAddItem = async (formData: FormData) => {
-  //   'use server';
-  //   const itemName = formData.get('itemName') as string;
-  //   const itemExpirationDate = formData.get('itemExpirationDate') as string;
-  //   const itemType = formData.get('itemType') as string;
-  //
-  //   await addItem({
-  //     name: itemName,
-  //     expiration_date: new Date(itemExpirationDate),
-  //     item_type_id: parseInt(itemType),
-  //   });
-  // };
-
   const { types, addItem } = useItemContext();
 
   const handleAddItem = async (e: React.FormEvent<HTMLFormElement>) => {
