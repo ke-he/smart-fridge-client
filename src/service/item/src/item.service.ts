@@ -17,8 +17,8 @@ export interface ItemsDto extends ItemTable {
 }
 
 export interface ItemsDtoFilter {
-  name: string;
-  type: number;
+  name: string | null;
+  type: number | null;
 }
 
 class ItemService extends ServiceInterface {

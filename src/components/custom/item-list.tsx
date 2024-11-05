@@ -11,21 +11,31 @@ import { useItemContext } from '@/contexts/item.provider';
 
 export function ItemList() {
   const { searchParams, setParam } = useWritableSearchParams<ItemsDtoFilter>();
-  const { items, increaseItem, types } = useItemContext();
+  const { items, increaseItem, types, loadItems } = useItemContext();
 
   const name = searchParams.get('name') || '';
   const type = searchParams.get('type') || '';
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeChange = async (value: string) => {
     setParam('type', value);
+    const parsedType = parseInt(value);
+    await loadItems({
+      name: name ?? null,
+      type: Number.isNaN(parsedType) ? null : parsedType,
+    });
   };
 
-  const handleNameChange = (value: string) => {
+  const handleNameChange = async (value: string) => {
     setParam('name', value);
+    const parsedType = parseInt(type);
+    await loadItems({
+      name: name ?? null,
+      type: Number.isNaN(parsedType) ? null : parsedType,
+    });
   };
 
   const handleIncreaseItem = async (id: number) => {
-    await increaseItem(id);
+    // await increaseItem(id);
   };
 
   return (
