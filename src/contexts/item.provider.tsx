@@ -1,4 +1,4 @@
-import { ItemTable, ItemTypeTable } from '@lib/database';
+import { ItemTable, ItemTypeTable } from '@lib/types';
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import {

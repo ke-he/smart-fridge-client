@@ -19,7 +19,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@lib/database": ["./src/lib/database"],
+      "@lib/types": ["./src/lib/types"],
       "@lib/common": ["./src/lib/common"],
       "@service/item": ["./src/service/item"],
       "@components": ["./src/components"]

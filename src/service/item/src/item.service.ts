@@ -5,10 +5,9 @@ import {
   ITEM_TYPE_TABLE_NAME,
   ItemTable,
   ItemTypeTable,
-  DatabaseService,
   ItemHomeLinkTable,
   ITEM_HOME_LINK_TABLE_NAME,
-} from '@lib/database';
+} from '@lib/types';
 import { ServiceInterface } from '@lib/common';
 import { revalidatePath } from 'next/cache';
 
@@ -22,30 +21,11 @@ export interface ItemsDtoFilter {
 }
 
 class ItemService extends ServiceInterface {
-  static async getItems(search?: ItemsDtoFilter): Promise<ItemsDto[]> {
-    const query = DatabaseService.getInstance()
-      .table<ItemsDto>(ITEM_TABLE_NAME)
-      .select('*', {
-        count: DatabaseService.getInstance().raw('COUNT(*)'),
-      })
-      .groupBy('id');
-
-    if (search?.name != null) {
-      void query.where('name', 'like', `%${search.name}%`);
-    }
-
-    if (search?.type != null) {
-      void query.where('item_type_id', search.type);
-    }
-
+  static async getItems(search?: string): Promise<ItemsDto[]> {
     return query;
   }
 
   static async addItem(item: Omit<ItemTable, 'id'>): Promise<void> {
-    await DatabaseService.getInstance()
-      .table<ItemTable>(ITEM_TABLE_NAME)
-      .insert(item);
-
     revalidatePath('/');
   }
 
@@ -64,7 +44,7 @@ class ItemService extends ServiceInterface {
   }
 }
 
-export const getItems = async (search?: ItemsDtoFilter) =>
+export const getItems = async (search?: string) =>
   await ItemService.getItems(search);
 
 export const getItemTypes = async () => await ItemService.getItemTypes();
