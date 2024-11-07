@@ -3,7 +3,7 @@
 import { Fragment } from 'react';
 import { Input, ScrollArea, Separator } from '@components';
 import { ItemTypeSelect } from '@/components/custom/item-type-select';
-import { useWritableSearchParams } from '@/lib/common/hooks/useWritableSearchParams';
+import { useWritableSearchParams } from '@/lib/common/hooks/use-writable-search-params';
 import DisplayCount from '@/components/custom/display-count';
 import DisplayDate from '@/components/custom/display-date';
 import { ItemsDtoFilter } from '@service/item';

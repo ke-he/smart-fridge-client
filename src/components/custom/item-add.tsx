@@ -3,7 +3,7 @@
 import { Button, DatePicker, Input, ItemTypeSelect } from '@components';
 import { ListPlus } from 'lucide-react';
 import { useItemContext } from '@/contexts/item.provider';
-import { toDateString } from '@/lib/common/utils/toDateString';
+import { toDateString } from '@/lib/common/utils/to-date-string';
 
 export default function ItemAdd() {
   const { types, addItem } = useItemContext();
