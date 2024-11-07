@@ -11,7 +11,7 @@ import { useItemContext } from '@/contexts/item.provider';
 
 export function ItemList() {
   const { searchParams, setParam } = useWritableSearchParams<ItemsDtoFilter>();
-  const { items, increaseItem, types } = useItemContext();
+  const { items, types } = useItemContext();
 
   const name = searchParams.get('name') || '';
   const type = searchParams.get('type') || '';
@@ -24,9 +24,9 @@ export function ItemList() {
     setParam('name', value);
   };
 
-  const handleIncreaseItem = async (id: number) => {
-    await increaseItem(id);
-  };
+  // const handleIncreaseItem = async (id: number) => {
+  //   // await increaseItem(id);
+  // };
 
   return (
     <>
@@ -53,7 +53,7 @@ export function ItemList() {
               <Fragment key={item.id}>
                 <div
                   className="flex justify-between"
-                  onClick={() => handleIncreaseItem(item.id)}
+                  // onClick={() => handleIncreaseItem(item.id)}
                 >
                   <div key={item.id} className="text-sm w-100 text-left">
                     {item.name}
@@ -68,7 +68,7 @@ export function ItemList() {
                     key={item.id + '-expiration'}
                     className="text-xs w-100 text-right"
                   >
-                    <DisplayDate date={item.expiration_date} />
+                    <DisplayDate date={new Date(item.expiration_date)} />
                   </div>
                 </div>
                 <Separator className="my-2" />

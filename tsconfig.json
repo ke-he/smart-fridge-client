@@ -21,6 +21,7 @@
       "@/*": ["./src/*"],
       "@lib/types": ["./src/lib/types"],
       "@lib/common": ["./src/lib/common"],
+      "@lib/http-client": ["./src/lib/http-client"],
       "@service/item": ["./src/service/item"],
       "@components": ["./src/components"]
     }
