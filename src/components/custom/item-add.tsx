@@ -3,7 +3,6 @@
 import { Button, DatePicker, Input, ItemTypeSelect } from '@components';
 import { ListPlus } from 'lucide-react';
 import { useItemContext } from '@/contexts/item.provider';
-import { toDateString } from '@/lib/common/utils/to-date-string';
 
 export default function ItemAdd() {
   const { types, addItem } = useItemContext();
@@ -12,12 +11,10 @@ export default function ItemAdd() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const itemName = formData.get('itemName') as string;
-    const itemExpirationDate = formData.get('itemExpirationDate') as string;
     const itemType = formData.get('itemType') as string;
 
     await addItem({
       name: itemName,
-      expiration_date: toDateString(new Date(itemExpirationDate)),
       item_type_id: parseInt(itemType),
     });
   };

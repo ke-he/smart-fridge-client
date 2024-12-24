@@ -5,9 +5,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --custom-green-dark: #1e2b19;
+  --custom-green-light: #bdd0c1;
+  --custom-gray-light: #f8f9fe;
+  --custom-gray-dark: #212226;
+  --custom-font-color-main: #1F2024;
+  --custom-font-color-secondary: #71727A;
 }
 
-@media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -94,4 +100,25 @@ body {
 
 .w-100 {
   width: 100%;
+}
+
+h1 {
+  font-size: 1rem !important;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 0.9rem !important;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 0.8rem !important;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-style: oblique;
+  letter-spacing: 0.3rem;
 }

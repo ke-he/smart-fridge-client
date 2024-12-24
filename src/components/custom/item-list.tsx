@@ -5,7 +5,6 @@ import { Input, ScrollArea, Separator } from '@components';
 import { ItemTypeSelect } from '@/components/custom/item-type-select';
 import { useWritableSearchParams } from '@/lib/common/hooks/use-writable-search-params';
 import DisplayCount from '@/components/custom/display-count';
-import DisplayDate from '@/components/custom/display-date';
 import { ItemsDtoFilter } from '@service/item';
 import { useItemContext } from '@/contexts/item.provider';
 
@@ -63,12 +62,6 @@ export function ItemList() {
                     className="text-xs w-100 text-center"
                   >
                     <DisplayCount count={item.count} />
-                  </div>
-                  <div
-                    key={item.id + '-expiration'}
-                    className="text-xs w-100 text-right"
-                  >
-                    <DisplayDate date={new Date(item.expiration_date)} />
                   </div>
                 </div>
                 <Separator className="my-2" />
