@@ -122,3 +122,10 @@ h3 {
   font-style: oblique;
   letter-spacing: 0.3rem;
 }
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+

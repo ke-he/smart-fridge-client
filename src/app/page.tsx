@@ -6,6 +6,7 @@ import ItemCard, {
   ItemCardTypeSmall,
 } from '@/components/custom/item-card';
 import { Bell, Search } from 'lucide-react';
+import Navbar from '@/components/custom/navigation';
 
 const testObject: ItemCardTypeSmall = {
   id: 1,
@@ -33,7 +34,7 @@ export default function Home() {
           <span className="pageTitle">home</span>
           <Bell />
         </header>
-        <div className="flex flex-col w-100 justify-center p-3">
+        <div className="flex flex-col w-100 justify-center p-3 mb-5">
           <div className="flex justify-between">
             <h2 className="font-bold">Items nearing expiry</h2>
             <h3
@@ -61,6 +62,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Navbar />
     </ItemProvider>
   );
 }

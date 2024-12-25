@@ -1,0 +1,22 @@
+.bottomNav {
+    background-color: var(--custom-gray-light);
+    padding: 0.5rem 0.5rem;
+    border-radius: 20px;
+    margin-bottom: 0.8rem;
+    margin-right: 0.8rem;
+    margin-left: 0.8rem;
+    font-size: 0.6rem !important;
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bottomNavActive {
+    color: var(--custom-green-dark);
+}
+
+.bottomNavInactive {
+    color: var(--custom-font-color-secondary);
+}
+
+.bottomNavActiveIndicator {
+    background-color: var(--custom-green-dark);
+}
