@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components';
-import { ItemTypeTable } from '../../lib/types';
+import { ItemTypeTable } from '@lib/types';
 
 export function ItemTypeSelect({
   types,

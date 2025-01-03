@@ -1,6 +1,6 @@
 import styles from './item-card.module.css';
 import { ArrowRight } from 'lucide-react';
-import CustomButton from '@/components/custom/custom-button';
+import CustomButton from '@/components/custom/button/custom-button';
 
 export interface ItemCardTypeSmall {
   id: number;
