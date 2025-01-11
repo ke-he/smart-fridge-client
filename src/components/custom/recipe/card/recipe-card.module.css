@@ -1,12 +1,9 @@
-/* recipe-card.module.css */
-
 .recipeCard {
     display: flex;
     flex-direction: column;
-    width: 12rem;
+    width: 11.5rem;
     background-color: var(--custom-gray-light);
     border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
