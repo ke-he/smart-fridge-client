@@ -11,12 +11,10 @@ export default function ItemAdd() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const itemName = formData.get('itemName') as string;
-    const itemExpirationDate = formData.get('itemExpirationDate') as string;
     const itemType = formData.get('itemType') as string;
 
     await addItem({
       name: itemName,
-      expiration_date: new Date(itemExpirationDate),
       item_type_id: parseInt(itemType),
     });
   };

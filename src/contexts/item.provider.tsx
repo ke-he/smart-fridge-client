@@ -1,11 +1,10 @@
-import { ItemTable, ItemTypeTable } from '@lib/database';
+import { ItemTable, ItemTypeTable } from '@lib/types';
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
   addItem,
   getItems,
   getItemTypes,
-  increaseItem,
   ItemsDto,
   ItemsDtoFilter,
 } from '@service/item';
@@ -15,7 +14,7 @@ interface ItemContext {
   items: ItemsDto[];
   loadItems: (search?: ItemsDtoFilter) => Promise<ItemsDto[]>;
   addItem: (item: Omit<ItemTable, 'id'>) => Promise<void>;
-  increaseItem: (id: number) => Promise<void>;
+  // increaseItem: (id: number) => Promise<void>;
   types: ItemTypeTable[];
   loadItemTypes: () => Promise<ItemTypeTable[]>;
 }
@@ -24,7 +23,7 @@ export const ItemContext = createContext<ItemContext>({
   items: [],
   loadItems: async () => [],
   addItem: async () => {},
-  increaseItem: async () => {},
+  // increaseItem: async () => {},
   types: [],
   loadItemTypes: async () => [],
 });
@@ -43,11 +42,11 @@ const ItemProvider = ({ children }: AppProviderArgs) => {
     await addItem(item);
     await _loadItems();
   };
-
-  const _increaseItem = async (id: number) => {
-    await increaseItem(id);
-    await _loadItems();
-  };
+  //
+  // const _increaseItem = async (id: number) => {
+  //   await increaseItem(id);
+  //   await _loadItems();
+  // };
 
   const loadItemTypes = async () => {
     const types = await getItemTypes();
@@ -66,7 +65,7 @@ const ItemProvider = ({ children }: AppProviderArgs) => {
         items: items,
         loadItems: _loadItems,
         addItem: _addItem,
-        increaseItem: _increaseItem,
+        // increaseItem: _increaseItem,
         types: types,
         loadItemTypes: loadItemTypes,
       }}

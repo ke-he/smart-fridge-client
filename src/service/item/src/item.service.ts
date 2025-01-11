@@ -1,16 +1,7 @@
 'use server';
 
-import {
-  ITEM_TABLE_NAME,
-  ITEM_TYPE_TABLE_NAME,
-  ItemTable,
-  ItemTypeTable,
-  DatabaseService,
-  ItemHomeLinkTable,
-  ITEM_HOME_LINK_TABLE_NAME,
-} from '@lib/database';
-import { ServiceInterface } from '@lib/common';
-import { revalidatePath } from 'next/cache';
+import { ItemTable, ItemTypeTable } from '@lib/types';
+import { BaseService } from '@lib/common';
 
 export interface ItemsDto extends ItemTable {
   count: number;
@@ -21,56 +12,41 @@ export interface ItemsDtoFilter {
   type: number | null;
 }
 
-class ItemService extends ServiceInterface {
-  static async getItems(search?: ItemsDtoFilter): Promise<ItemsDto[]> {
-    const query = DatabaseService.getInstance()
-      .table<ItemsDto>(ITEM_TABLE_NAME)
-      .select('*', {
-        count: DatabaseService.getInstance().raw('COUNT(*)'),
-      })
-      .groupBy('id');
+class ItemService extends BaseService {
+  private static instance: ItemService;
 
-    if (search?.name != null) {
-      void query.where('name', 'like', `%${search.name}%`);
+  private constructor() {
+    super('/item');
+  }
+
+  public static getInstance(): ItemService {
+    if (!ItemService.instance) {
+      ItemService.instance = new ItemService();
     }
-
-    if (search?.type != null) {
-      void query.where('item_type_id', search.type);
-    }
-
-    return query;
+    return ItemService.instance;
   }
 
-  static async addItem(item: Omit<ItemTable, 'id'>): Promise<void> {
-    await DatabaseService.getInstance()
-      .table<ItemTable>(ITEM_TABLE_NAME)
-      .insert(item);
-
-    revalidatePath('/');
+  public async getItems(search?: ItemsDtoFilter): Promise<ItemsDto[]> {
+    return this.httpClient.post<ItemsDto[]>(`${this.endpoint}/`, search, false);
   }
 
-  static async getItemTypes(): Promise<ItemTypeTable[]> {
-    return DatabaseService.getInstance()
-      .table<ItemTypeTable>(ITEM_TYPE_TABLE_NAME)
-      .select('*');
+  public async addItem(item: Omit<ItemTable, 'id'>): Promise<void> {
+    await this.httpClient.post(`${this.endpoint}/add`, item, false);
   }
 
-  static async increaseItem(id: number): Promise<void> {
-    await DatabaseService.getInstance()
-      .table<ItemHomeLinkTable>(ITEM_HOME_LINK_TABLE_NAME)
-      .insert({ item_id: id, home_id: 1 });
-
-    revalidatePath('/');
+  public async getItemTypes(): Promise<ItemTypeTable[]> {
+    return this.httpClient.get<ItemTypeTable[]>(`${this.endpoint}/type`, false);
   }
 }
 
-export const getItems = async (search?: ItemsDtoFilter) =>
-  await ItemService.getItems(search);
+export const getItems = async (search?: ItemsDtoFilter) => {
+  return await ItemService.getInstance().getItems(search);
+};
 
-export const getItemTypes = async () => await ItemService.getItemTypes();
+export const getItemTypes = async () => {
+  return ItemService.getInstance().getItemTypes();
+};
 
-export const addItem = async (item: Omit<ItemTable, 'id'>) =>
-  await ItemService.addItem(item);
-
-export const increaseItem = async (id: number) =>
-  await ItemService.increaseItem(id);
+export const addItem = async (item: Omit<ItemTable, 'id'>) => {
+  await ItemService.getInstance().addItem(item);
+};

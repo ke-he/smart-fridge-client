@@ -2,16 +2,15 @@
 
 import { Fragment } from 'react';
 import { Input, ScrollArea, Separator } from '@components';
-import { ItemTypeSelect } from '@/components/custom/item-type-select';
-import { useWritableSearchParams } from '@/lib/common/hooks/useWritableSearchParams';
-import DisplayCount from '@/components/custom/display-count';
-import DisplayDate from '@/components/custom/display-date';
+import { ItemTypeSelect } from '@/components/custom/item/item-type-select';
+import { useWritableSearchParams } from '@/lib/common/hooks/use-writable-search-params';
+import DisplayCount from '@/components/custom/misc/display-count';
 import { ItemsDtoFilter } from '@service/item';
 import { useItemContext } from '@/contexts/item.provider';
 
 export function ItemList() {
   const { searchParams, setParam } = useWritableSearchParams<ItemsDtoFilter>();
-  const { items, increaseItem, types, loadItems } = useItemContext();
+  const { items, types, loadItems } = useItemContext();
 
   const name = searchParams.get('name') || '';
   const type = searchParams.get('type') || '';
@@ -34,9 +33,9 @@ export function ItemList() {
     });
   };
 
-  const handleIncreaseItem = async (id: number) => {
-    // await increaseItem(id);
-  };
+  // const handleIncreaseItem = async (id: number) => {
+  //   // await increaseItem(id);
+  // };
 
   return (
     <>
@@ -63,7 +62,7 @@ export function ItemList() {
               <Fragment key={item.id}>
                 <div
                   className="flex justify-between"
-                  onClick={() => handleIncreaseItem(item.id)}
+                  // onClick={() => handleIncreaseItem(item.id)}
                 >
                   <div key={item.id} className="text-sm w-100 text-left">
                     {item.name}
@@ -73,12 +72,6 @@ export function ItemList() {
                     className="text-xs w-100 text-center"
                   >
                     <DisplayCount count={item.count} />
-                  </div>
-                  <div
-                    key={item.id + '-expiration'}
-                    className="text-xs w-100 text-right"
-                  >
-                    <DisplayDate date={item.expiration_date} />
                   </div>
                 </div>
                 <Separator className="my-2" />
