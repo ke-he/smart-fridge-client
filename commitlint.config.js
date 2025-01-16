@@ -9,6 +9,7 @@ module.exports = {
         'database',
         'common',
         'service',
+        'item-service',
         'api',
         'components',
         'app',
