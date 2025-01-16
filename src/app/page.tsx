@@ -1,9 +1,6 @@
 'use client';
 
-import ItemCard, {
-  ItemCardTypeBig,
-  ItemCardTypeSmall,
-} from '@/components/custom/item/card/item-card';
+import ItemCard from '@/components/custom/item/card/item-card';
 import { useItemContext } from '@/contexts/item.provider';
 import { useEffect, useState } from 'react';
 import { ItemsDto } from '@service/item';
