@@ -10,4 +10,3 @@ export * from './ui/separator';
 export * from './custom/item/item-type-select';
 export * from './custom/theme/theme-toggle';
 export * from './custom/theme/theme-provider';
-export * from './ui/number-picker';
