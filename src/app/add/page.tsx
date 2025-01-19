@@ -1,122 +1,85 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Button, DatePicker, Input, ItemTypeSelect } from '@components';
-import Webcam from 'react-webcam';
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
-import '@tensorflow/tfjs';
-import BarcodeScannerComponent from 'react-qr-barcode-scanner';
+import { useState } from 'react';
+import { addItem } from '@/service/item';
 
 export default function Add() {
-  const [inputValue, setInputValue] = useState('');
-  const [showCamera, setShowCamera] = useState(false);
-  const [mode, setMode] = useState('');
-  const [expirationDate, setExpirationDate] = useState(new Date());
-  const [amount, setAmount] = useState(1);
-  const [type, setType] = useState('');
-  const webcamRef = useRef(null);
-  const [model, setModel] = useState(null);
+  const [name, setName] = useState('');
+  const [itemTypeId, setItemTypeId] = useState(1); // Standardwert für `item_type_id`
+  const [expirationDate, setExpirationDate] = useState(''); // YYYY-MM-DD
+  const [createdBy, setCreatedBy] = useState(1); // Beispiel: Benutzer-ID (fix)
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const loadModel = async () => {
-      const loadedModel = await cocoSsd.load();
-      setModel(loadedModel);
-    };
-    loadModel();
-  }, []);
-
-  const detectObjects = async () => {
-    if (webcamRef.current && webcamRef.current.video.readyState === 4) {
-      const video = webcamRef.current.video;
-      const predictions = await model.detect(video);
-      const objectPrediction = predictions[0];
-      if (objectPrediction) {
-        setInputValue('Object: ' + objectPrediction.class);
-      } else {
-        setInputValue('No object detected');
-      }
-      setShowCamera(false);
+  const handleSubmit = async () => {
+    if (!name.trim() || !expirationDate.trim() || !createdBy) {
+      alert('Bitte alle Felder ausfüllen!');
+      return;
     }
-  };
 
-  const handleCapture = () => {
+    setLoading(true);
 
-    detectObjects();
-  };
+    try {
+      await addItem({
+        name,
+        item_type_id: itemTypeId,
+        expiration_date: expirationDate,
+        created_by: createdBy,
+      });
 
-  const handleOpenCamera = (scanMode) => {
-    setMode(scanMode);
-    setShowCamera(true);
-  };
-
-  const handleCloseCamera = () => {
-    setShowCamera(false);
+      alert('Item erfolgreich hinzugefügt!');
+      setName('');
+      setItemTypeId(1);
+      setExpirationDate('');
+    } catch (error) {
+      console.error('Fehler beim Hinzufügen des Items:', error);
+      alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <h1>Add</h1>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Enter item or scan barcode"
-      />
-      <Button onClick={() => handleOpenCamera('barcode')}>Scan Barcode</Button>
-      <Button onClick={() => handleOpenCamera('manual')}>Add Manual</Button>
-      {showCamera && (
-        <div>
-          {mode === 'barcode' ? (
-            <BarcodeScannerComponent
-              width={500}
-              height={500}
-              onUpdate={(err, result) => {
-                if (result) {
-                  setInputValue('Barcode: ' + result.text);
-                  setShowCamera(false);
-                } else {
-                  setInputValue('No barcode detected');
-                }
-              }}
-            />
-          ) : (
-            <div>
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={500}
-                height={500}
-              />
-              <Button onClick={handleCapture}>Capture Image</Button>
-            </div>
-          )}
-          <Button onClick={handleCloseCamera}>Close Camera</Button>
-        </div>
-      )}
+      <h1>Item hinzufügen</h1>
       <div>
-        <label>Expiration Date:</label>
-        <DatePicker selected={expirationDate} onChange={(date) => setExpirationDate(date)} />
-      </div>
-      <div>
-        <label>Amount:</label>
+        <label>Name:</label>
         <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(parseInt(e.target.value))}
-          min="1"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name des Items"
         />
       </div>
       <div>
-        <label>Type:</label>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">Select type</option>
-          <option value="fruit">Fruit</option>
-          <option value="vegetable">Vegetable</option>
-          <option value="dairy">Dairy</option>
-          <option value="meat">Meat</option>
-        </select>
+        <label>Item-Typ-ID:</label>
+        <input
+          type="number"
+          value={itemTypeId}
+          onChange={(e) => setItemTypeId(Number(e.target.value))}
+          placeholder="Item-Typ-ID (z.B. 1)"
+        />
       </div>
+      <div>
+        <label>Ablaufdatum:</label>
+        <input
+          type="date"
+          value={expirationDate}
+          onChange={(e) => setExpirationDate(e.target.value)}
+          placeholder="Ablaufdatum (YYYY-MM-DD)"
+        />
+      </div>
+      <div>
+        <label>Erstellt von (User-ID):</label>
+        <input
+          type="number"
+          value={createdBy}
+          onChange={(e) => setCreatedBy(Number(e.target.value))}
+          placeholder="Erstellt von (z.B. 1)"
+        />
+      </div>
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? 'Wird hinzugefügt...' : 'Hinzufügen'}
+      </button>
     </div>
   );
 }
