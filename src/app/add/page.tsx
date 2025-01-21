@@ -1,17 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import { addItem } from '@/service/item';
+import { Button, DatePicker, Input, ItemTypeSelect, NumberPicker } from '@components';
+import Webcam from 'react-webcam';
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import '@tensorflow/tfjs';
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
+
 
 export default function Add() {
   const [name, setName] = useState('');
   const [itemTypeId, setItemTypeId] = useState(1); // Standardwert für `item_type_id`
-  const [expirationDate, setExpirationDate] = useState(''); // YYYY-MM-DD
+  const [expirationDate, setExpirationDate] = useState(new Date()); // YYYY-MM-DD
   const [createdBy, setCreatedBy] = useState(1); // Beispiel: Benutzer-ID (fix)
   const [loading, setLoading] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
+  const [mode, setMode] = useState('');
+  const [amount, setAmount] = useState(1);
+  const [type, setType] = useState('');
+  const webcamRef = useRef(null);
+  const [model, setModel] = useState(null);
+
+  useEffect(() => {
+    const loadModel = async () => {
+      const loadedModel = await cocoSsd.load();
+      setModel(loadedModel);
+    };
+    loadModel();
+  }, []);
 
   const handleSubmit = async () => {
-    if (!name.trim() || !expirationDate.trim() || !createdBy) {
+    if (!name.trim() || !expirationDate || !createdBy) {
       alert('Bitte alle Felder ausfüllen!');
       return;
     }
@@ -38,6 +58,34 @@ export default function Add() {
     }
   };
 
+  const detectObjects = async () => {
+    if (webcamRef.current && webcamRef.current.video.readyState === 4) {
+      const video = webcamRef.current.video;
+      const predictions = await model.detect(video);
+      const objectPrediction = predictions[0];
+      if (objectPrediction) {
+        setName('Object: ' + objectPrediction.class);
+      } else {
+        setName('No object detected');
+      }
+      setShowCamera(false);
+    }
+  };
+
+  const handleCapture = () => {
+
+    detectObjects();
+  };
+
+  const handleOpenCamera = (scanMode) => {
+    setMode(scanMode);
+    setShowCamera(true);
+  };
+
+  const handleCloseCamera = () => {
+    setShowCamera(false);
+  };
+
   return (
     <div>
       <h1>Item hinzufügen</h1>
@@ -50,6 +98,38 @@ export default function Add() {
           placeholder="Name des Items"
         />
       </div>
+      <Button onClick={() => handleOpenCamera('barcode')}>Scan Barcode</Button>
+      <Button onClick={() => handleOpenCamera('manual')}>Add Manual</Button>
+      {showCamera && (
+        <div>
+          {mode === 'barcode' ? (
+            <BarcodeScannerComponent
+              width={500}
+              height={500}
+              onUpdate={(err, result) => {
+                if (result) {
+                  setName(result.text);
+                  setShowCamera(false);
+                } else {
+                  setName('No barcode detected');
+                }
+              }}
+            />
+          ) : (
+            <div>
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                width={500}
+                height={500}
+              />
+              <Button onClick={handleCapture}>Capture Image</Button>
+            </div>
+          )}
+          <Button onClick={handleCloseCamera}>Close Camera</Button>
+        </div>
+      )}
       <div>
         <label>Item-Typ-ID:</label>
         <input
@@ -61,12 +141,8 @@ export default function Add() {
       </div>
       <div>
         <label>Ablaufdatum:</label>
-        <input
-          type="date"
-          value={expirationDate}
-          onChange={(e) => setExpirationDate(e.target.value)}
-          placeholder="Ablaufdatum (YYYY-MM-DD)"
-        />
+        <DatePicker selected={expirationDate} onChange={(date) => setExpirationDate(date.target.value)}/>
+
       </div>
       <div>
         <label>Erstellt von (User-ID):</label>
@@ -77,9 +153,9 @@ export default function Add() {
           placeholder="Erstellt von (z.B. 1)"
         />
       </div>
-      <button onClick={handleSubmit} disabled={loading}>
+      <Button onClick={handleSubmit} disabled={loading}>
         {loading ? 'Wird hinzugefügt...' : 'Hinzufügen'}
-      </button>
+      </Button>
     </div>
   );
 }
