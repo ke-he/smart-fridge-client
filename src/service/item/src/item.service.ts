@@ -34,6 +34,8 @@ class ItemService extends BaseService {
     await this.httpClient.post(`${this.endpoint}/add`, item, false);
   }
 
+
+
   public async getItemTypes(): Promise<ItemTypeTable[]> {
     return this.httpClient.get<ItemTypeTable[]>(`${this.endpoint}/type`, false);
   }
@@ -61,9 +63,6 @@ export const getItemTypes = async () => {
   return ItemService.getInstance().getItemTypes();
 };
 
-export const addItem = async (item: Omit<ItemTable, 'id'>) => {
-  await ItemService.getInstance().addItem(item);
-};
 
 export const getItemsNearExpiry = async () => {
   return ItemService.getInstance().getItemsNearExpiry();
@@ -71,4 +70,13 @@ export const getItemsNearExpiry = async () => {
 
 export const getItemsLastAdded = async () => {
   return ItemService.getInstance().getItemsLastAdded();
+};
+
+export const addItem = async (item: {
+  item_type_id: number;
+  name: string;
+  expiration_date: string;
+  created_by: number;
+}) => {
+  await ItemService.getInstance().addItem(item);
 };
