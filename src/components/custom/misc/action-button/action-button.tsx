@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { LegacyRef } from 'react';
 import styles from './action-button.module.css';
 
 type ActionButtonProps = {
@@ -8,6 +8,7 @@ type ActionButtonProps = {
   icon?: React.ReactNode;
   badgeCount?: number;
   onClick: () => void;
+  ref?: LegacyRef<HTMLButtonElement>;
 };
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -15,9 +16,10 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   icon,
   badgeCount,
   onClick,
+  ref,
 }) => {
   return (
-    <button onClick={onClick} className={styles['action-button']}>
+    <button ref={ref} onClick={onClick} className={styles['action-button']}>
       {icon && <span className={styles['action-icon']}>{icon}</span>}
       <span className={styles['action-label']}>{label}</span>
       {badgeCount !== undefined && badgeCount > 0 && (
