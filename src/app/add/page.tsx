@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { addItem } from '@/service/item';
 import { Button, DatePicker, Input, ItemTypeSelect, NumberPicker } from '@components';
-import Webcam from 'react-webcam';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import '@tensorflow/tfjs';
 import BarcodeScannerComponent from 'react-qr-barcode-scanner';
@@ -20,6 +19,7 @@ export default function Add() {
   const [amount, setAmount] = useState(1);
   const [type, setType] = useState('');
   const webcamRef = useRef(null);
+  const videoRef = useRef(null);
   const [model, setModel] = useState(null);
 
   useEffect(() => {
@@ -58,37 +58,48 @@ export default function Add() {
     }
   };
 
-  const detectObjects = async () => {
-    if (webcamRef.current && webcamRef.current.video.readyState === 4) {
-      const video = webcamRef.current.video;
-      const predictions = await model.detect(video);
-      const objectPrediction = predictions[0];
-      if (objectPrediction) {
-        setName('Object: ' + objectPrediction.class);
-      } else {
-        setName('No object detected');
-      }
-      setShowCamera(false);
+  const detectObjects = async (video) => {
+    const predictions = await model.detect(video);
+    const objectPrediction = predictions[0];
+    if (objectPrediction) {
+      setName('Object: ' + objectPrediction.class);
+    } else {
+      setName('No object detected');
     }
+    setShowCamera(false);
   };
 
   const handleCapture = () => {
-
-    detectObjects();
+    if (videoRef.current) {
+      detectObjects(videoRef.current);
+    }
   };
 
   const handleOpenCamera = (scanMode) => {
     setMode(scanMode);
     setShowCamera(true);
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+      .then(stream => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
+      })
+      .catch(err => console.error('Error accessing camera: ', err));
   };
 
   const handleCloseCamera = () => {
     setShowCamera(false);
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+    }
   };
 
   return (
     <div>
-      <h1>Item hinzufügen</h1>
+      <h1>Add Item</h1>
       <div>
         <label>Name:</label>
         <input
@@ -117,13 +128,7 @@ export default function Add() {
             />
           ) : (
             <div>
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={500}
-                height={500}
-              />
+              <video ref={videoRef} width={500} height={500} />
               <Button onClick={handleCapture}>Capture Image</Button>
             </div>
           )}
