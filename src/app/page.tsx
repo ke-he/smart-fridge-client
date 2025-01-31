@@ -4,8 +4,11 @@ import ItemCard from '@/components/custom/item/card/item-card';
 import { useItemContext } from '@/contexts/item.provider';
 import { useEffect, useState } from 'react';
 import { ItemsDto } from '@service/item';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
   const [itemsNearExpiry, setItemsNearExpiry] = useState<ItemsDto[]>([]);
   const [itemsLastAdded, setItemsLastAdded] = useState<ItemsDto[]>([]);
 
@@ -20,6 +23,10 @@ export default function Home() {
     });
   }, []);
 
+  const handleSeeAllClick = () => {
+    router.push('/inventory');
+  };
+
   return (
     <>
       <div className="flex flex-col w-100 justify-center p-3 mb-5">
@@ -28,6 +35,7 @@ export default function Home() {
           <h3
             className="font-bold underline"
             style={{ color: 'var(--custom-green-dark)' }}
+            onClick={handleSeeAllClick}
           >
             See all
           </h3>
@@ -43,7 +51,7 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
-                    img_url: 'test',
+                    img_url: 'test-img-url', // will throw 404 not found error
                     expiration_date: 'MAR 05',
                   },
                 }}
@@ -67,7 +75,7 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
-                    img_url: 'test',
+                    img_url: 'test-img-url', // will throw 404 not found error
                   },
                 }}
               />

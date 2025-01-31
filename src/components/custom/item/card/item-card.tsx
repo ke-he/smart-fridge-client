@@ -1,6 +1,9 @@
+'use client';
+
 import styles from './item-card.module.css';
 import { ArrowRight } from 'lucide-react';
 import CustomButton from '../../misc/button/custom-button';
+import { useRouter } from 'next/navigation';
 
 export interface ItemCardTypeSmall {
   id: number;
@@ -24,9 +27,15 @@ export interface ItemCardTypeParams {
   itemCardBig?: ItemCardTypeBig;
 }
 
-function ItemCardSmall({ param }: { param: ItemCardTypeSmall }) {
+function ItemCardSmall({
+  param,
+  routeCallback,
+}: {
+  param: ItemCardTypeSmall;
+  routeCallback: () => void;
+}) {
   return (
-    <div className={styles.itemCardSmallWrapper}>
+    <div onClick={routeCallback} className={styles.itemCardSmallWrapper}>
       <img
         className={styles.itemCardSmallImage}
         src={param.img_url}
@@ -47,9 +56,15 @@ function ItemCardSmall({ param }: { param: ItemCardTypeSmall }) {
   );
 }
 
-function ItemCardBig({ param }: { param: ItemCardTypeBig }) {
+function ItemCardBig({
+  param,
+  routeCallback,
+}: {
+  param: ItemCardTypeBig;
+  routeCallback: () => void;
+}) {
   return (
-    <div className={styles.itemCardBigWrapper}>
+    <div onClick={routeCallback} className={styles.itemCardBigWrapper}>
       <div className={styles.itemCardBigImageWrapper}>
         <img
           className={styles.itemCardBigImage}
@@ -78,11 +93,31 @@ export default function ItemCard({
 }: {
   parentParam: ItemCardTypeParams;
 }) {
+  const router = useRouter();
+
+  const getItemId = () => {
+    return parentParam.itemCardSmall?.id || parentParam.itemCardBig?.id;
+  };
+
+  const handleClick = () => {
+    router.push(`/inventory/${getItemId()}`);
+  };
+
   if (parentParam.itemCardSmall) {
-    return <ItemCardSmall param={parentParam.itemCardSmall} />;
+    return (
+      <ItemCardSmall
+        param={parentParam.itemCardSmall}
+        routeCallback={handleClick}
+      />
+    );
   }
 
   if (parentParam.itemCardBig) {
-    return <ItemCardBig param={parentParam.itemCardBig} />;
+    return (
+      <ItemCardBig
+        param={parentParam.itemCardBig}
+        routeCallback={handleClick}
+      />
+    );
   }
 }
