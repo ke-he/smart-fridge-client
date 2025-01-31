@@ -34,7 +34,7 @@ export default function Add() {
 
   const handleSubmit = async () => {
     if (!name.trim() || !expirationDate || !createdBy) {
-      alert('Bitte alle Felder ausfüllen!');
+      alert('Please fill out all fields!');
       return;
     }
 
@@ -48,15 +48,13 @@ export default function Add() {
         created_by: createdBy,
       });
 
-      alert('Item erfolgreich hinzugefügt!');
+      alert('Item added successfully!');
       setName('');
       setItemTypeId(1);
       setExpirationDate(null);
     } catch (error) {
-      console.error('Fehler beim Hinzufügen des Items:', error);
-      alert(
-        'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
-      );
+      console.error('Error whiles adding item:', error);
+      alert('An error occurred, please try again');
     } finally {
       setLoading(false);
     }
@@ -112,7 +110,7 @@ export default function Add() {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Name des Items"
+          placeholder="Item Name"
         />
       </div>
       <CustomButton onClick={() => handleOpenCamera('barcode')}>
@@ -151,7 +149,7 @@ export default function Add() {
         onChange={(date) => setExpirationDate(date)}
       />
       <CustomButton onClick={handleSubmit} disabled={loading}>
-        {loading ? 'Wird hinzugefügt...' : 'Hinzufügen'}
+        {loading ? 'adding...' : 'Add'}
       </CustomButton>
     </div>
   );
