@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useItemContext } from '@/contexts/item.provider';
 import { ItemsDto } from '@service/item';
+import CustomButton from '@/components/custom/misc/button/custom-button';
 
 export default function ItemDetail() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function ItemDetail() {
       if (foundItem) {
         setItem(foundItem);
       } else {
-        router.replace('/404'); // Redirect to 404 page if item not found
+        router.replace('/404');
       }
     }
   }, [itemId, items, router]);
@@ -33,7 +34,7 @@ export default function ItemDetail() {
     <div className="p-6">
       <h1 className="text-2xl font-bold">{item.name}</h1>
       <img
-        src={'test-img-url'} // will throw 404 not found error
+        src={'/placeholder.png'}
         alt={item.name}
         className="w-full h-48 object-cover rounded-lg my-4"
       />
@@ -46,12 +47,9 @@ export default function ItemDetail() {
       <p>
         <strong>Expiration Date:</strong> {'test-expiration-date'}
       </p>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        onClick={() => router.push('/inventory')}
-      >
+      <CustomButton onClick={() => router.push('/inventory')}>
         Back to Inventory
-      </button>
+      </CustomButton>
     </div>
   );
 }

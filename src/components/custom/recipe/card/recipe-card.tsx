@@ -14,7 +14,11 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
     <div onClick={handleRecipeClick} className={styles.recipeCard}>
       <div className={styles.imageContainer}>
-        <img src={recipe.img_url} alt={recipe.name} className={styles.image} />
+        <img
+          src={recipe.img_url || '/placeholder.png'}
+          alt={recipe.name}
+          className={styles.image}
+        />
       </div>
       <div className={styles.content}>
         <p className={styles.description}>{recipe.name}</p>

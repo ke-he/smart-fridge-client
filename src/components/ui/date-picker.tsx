@@ -17,13 +17,15 @@ export function DatePicker({
   name,
   className,
   placeholder = 'Select a date',
+  date,
+  onChange,
 }: {
   name: string;
   className?: string;
   placeholder?: string;
+  date: Date | null;
+  onChange: (date: Date | null) => void;
 }) {
-  const [date, setDate] = React.useState<Date>();
-
   return (
     <>
       <input type="hidden" name={name} value={date?.toISOString()} />
@@ -43,8 +45,8 @@ export function DatePicker({
         <PopoverContent className={className}>
           <Calendar
             mode="single"
-            selected={date}
-            onSelect={setDate}
+            selected={date || undefined}
+            onSelect={(newDate) => onChange(newDate ?? null)}
             initialFocus
           />
         </PopoverContent>

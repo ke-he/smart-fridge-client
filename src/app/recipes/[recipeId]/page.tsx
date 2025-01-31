@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import recipes from '@/data/recipe';
 import { Recipe } from '@/lib/types/misc/recipe.interface';
+import CustomButton from '@/components/custom/misc/button/custom-button';
 
 export default function RecipeDetail() {
   const { recipeId } = useParams();
@@ -30,7 +31,7 @@ export default function RecipeDetail() {
     <div className="p-6">
       <h1 className="text-2xl font-bold">{recipe.name}</h1>
       <img
-        src={'test-img-url'} // will throw 404 not found error
+        src={recipe.img_url || '/placeholder.png'}
         alt={recipe.name}
         className="w-full h-48 object-cover rounded-lg my-4"
       />
@@ -48,12 +49,9 @@ export default function RecipeDetail() {
       <h2 className="text-xl font-semibold mt-6">Instructions</h2>
       <p className="whitespace-pre-line">{'test instruction'}</p>
 
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        onClick={() => router.push('/recipes')}
-      >
+      <CustomButton onClick={() => router.push('/recipes')}>
         Back to Recipes
-      </button>
+      </CustomButton>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export interface ItemCardTypeSmall {
   name: string;
   quantity: number;
   item_type_id: number;
-  img_url: string;
+  img_url?: string;
 }
 
 export interface ItemCardTypeBig {
@@ -18,7 +18,7 @@ export interface ItemCardTypeBig {
   name: string;
   quantity: number;
   item_type_id: number;
-  img_url: string;
+  img_url?: string;
   expiration_date: string;
 }
 
@@ -38,7 +38,7 @@ function ItemCardSmall({
     <div onClick={routeCallback} className={styles.itemCardSmallWrapper}>
       <img
         className={styles.itemCardSmallImage}
-        src={param.img_url}
+        src={param.img_url || '/placeholder.png'}
         alt={param.name}
       />
       <div className={styles.itemCardSmallContent}>
@@ -68,7 +68,7 @@ function ItemCardBig({
       <div className={styles.itemCardBigImageWrapper}>
         <img
           className={styles.itemCardBigImage}
-          src={param.img_url}
+          src={param.img_url || '/placeholder.png'}
           alt={param.name}
         />
         <span className={styles.itemCardBigDate}>{param.expiration_date}</span>

@@ -51,7 +51,6 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
-                    img_url: 'test-img-url', // will throw 404 not found error
                     expiration_date: 'MAR 05',
                   },
                 }}
@@ -75,7 +74,6 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
-                    img_url: 'test-img-url', // will throw 404 not found error
                   },
                 }}
               />
