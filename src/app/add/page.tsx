@@ -30,6 +30,7 @@ export default function Add() {
             }
         };
         loadModel();
+        handleOpenCamera('barcode');
     }, []);
 
     const handleSubmit = async () => {
