@@ -28,61 +28,67 @@ export default function Home() {
   };
 
   return (
-    <>
-      <div className="flex flex-col w-100 justify-center p-3 mb-5">
-        <div className="flex justify-between">
-          <h2 className="font-bold">Items nearing expiry</h2>
-          <h3
-            className="font-bold underline"
-            style={{ color: 'var(--custom-green-dark)' }}
-            onClick={handleSeeAllClick}
-          >
-            See all
-          </h3>
+      <div className="flex flex-col p-3 mb-5">
+        {/* Items nearing expiry */}
+        <div className="flex flex-col md:w-full">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="font-bold text-xl">Items nearing expiry</h2>
+            <h3
+                className="font-bold underline cursor-pointer text-green-700"
+                onClick={handleSeeAllClick}
+            >
+              See all
+            </h3>
+          </div>
+
+          {/* Mobile: Horizontales Scrollen | Desktop: Grid Layout */}
+          <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-hidden">
+            {itemsNearExpiry.length > 0 ? (
+                itemsNearExpiry.map((item) => (
+                    <ItemCard
+                        key={item.id}
+                        parentParam={{
+                          itemCardBig: {
+                            id: item.id,
+                            name: item.name,
+                            item_type_id: item.item_type_id,
+                            quantity: 3,
+                            expiration_date: 'MAR 05',
+                          },
+                        }}
+                    />
+                ))
+            ) : (
+                <p className="text-gray-500">No items near expiry</p>
+            )}
+          </div>
         </div>
-        <div className={'flex overflow-x-auto w-100 gap-3 justify-center pt-5'}>
-          {itemsNearExpiry.length > 0 ? (
-            itemsNearExpiry.map((item) => (
-              <ItemCard
-                key={item.id}
-                parentParam={{
-                  itemCardBig: {
-                    id: item.id,
-                    name: item.name,
-                    item_type_id: item.item_type_id,
-                    quantity: 3,
-                    expiration_date: 'MAR 05',
-                  },
-                }}
-              />
-            ))
-          ) : (
-            <p>No items near expiry</p>
-          )}
+
+        {/* Last added items */}
+        <div className="flex flex-col mt-10 md:w-full">
+          <h2 className="font-bold text-xl mb-3">Last added</h2>
+
+          {/* Mobile: Liste | Desktop: Grid */}
+          <div className="flex flex-col md:grid md:grid-cols-4 gap-4">
+            {itemsLastAdded.length > 0 ? (
+                itemsLastAdded.map((item) => (
+                    <ItemCard
+                        key={item.id}
+                        parentParam={{
+                          itemCardSmall: {
+                            id: item.id,
+                            name: item.name,
+                            item_type_id: item.item_type_id,
+                            quantity: 3,
+                          },
+                        }}
+                    />
+                ))
+            ) : (
+                <p className="text-gray-500">No items added</p>
+            )}
+          </div>
         </div>
       </div>
-      <div className={'flex flex-col w-screen justify-center p-3'}>
-        <h2 className="font-bold">Last added</h2>
-        <div className={'flex flex-col w-100 gap-3 justify-center pt-5'}>
-          {itemsLastAdded.length > 0 ? (
-            itemsLastAdded.map((item) => (
-              <ItemCard
-                key={item.id}
-                parentParam={{
-                  itemCardSmall: {
-                    id: item.id,
-                    name: item.name,
-                    item_type_id: item.item_type_id,
-                    quantity: 3,
-                  },
-                }}
-              />
-            ))
-          ) : (
-            <p>No items added</p>
-          )}
-        </div>
-      </div>
-    </>
   );
 }

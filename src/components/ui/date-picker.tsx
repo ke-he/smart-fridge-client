@@ -14,12 +14,12 @@ import {
 } from '@/components/ui/popover';
 
 export function DatePicker({
-  name,
-  className,
-  placeholder = 'Select a date',
-  date,
-  onChange,
-}: {
+                             name,
+                             className,
+                             placeholder = 'Select a date',
+                             date,
+                             onChange,
+                           }: {
   name: string;
   className?: string;
   placeholder?: string;
@@ -27,30 +27,24 @@ export function DatePicker({
   onChange: (date: Date | null) => void;
 }) {
   return (
-    <>
-      <input type="hidden" name={name} value={date?.toISOString()} />
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={'outline'}
-            className={cn(
-              'justify-start text-left font-normal',
-              !date && 'text-muted-foreground',
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, 'PPP') : <span>{placeholder}</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className={className}>
-          <Calendar
-            mode="single"
-            selected={date || undefined}
-            onSelect={(newDate) => onChange(newDate ?? null)}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
-    </>
+      <>
+        <input type="hidden" name={name} value={date?.toISOString()} />
+        <Popover>
+          <PopoverTrigger asChild>
+            <button className="date-picker">
+              <CalendarIcon className="mr-2 h-4 w-4 text-[#1E2B19]" />
+              {date ? format(date, 'PPP') : <span>{placeholder}</span>}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="date-picker-popover">
+            <Calendar
+                mode="single"
+                selected={date || undefined}
+                onSelect={(newDate) => onChange(newDate ?? null)}
+                initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </>
   );
 }

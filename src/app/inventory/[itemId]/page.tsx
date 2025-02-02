@@ -30,26 +30,27 @@ export default function ItemDetail() {
     return null;
   }
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">{item.name}</h1>
-      <img
-        src={'/placeholder.png'}
-        alt={item.name}
-        className="w-full h-48 object-cover rounded-lg my-4"
-      />
-      <p>
-        <strong>Type:</strong> {item.item_type_id}
-      </p>
-      <p>
-        <strong>Quantity:</strong> {'test-quantity'}
-      </p>
-      <p>
-        <strong>Expiration Date:</strong> {'test-expiration-date'}
-      </p>
-      <CustomButton onClick={() => router.push('/inventory')}>
-        Back to Inventory
-      </CustomButton>
-    </div>
-  );
+    return (
+        <div className="p-6">
+            <h1 className="text-4xl font-bold mb-6">{item.name}</h1>
+            <img
+                src={'/placeholder.png'}
+                alt={item.name}
+                className="w-full h-48 object-cover rounded-lg mb-6"
+            />
+            <p className="mb-2">
+                <strong>Type:</strong> {item.item_type_id}
+            </p>
+            <p className="mb-2">
+                <strong>Quantity:</strong> {'test-quantity'}
+            </p>
+            <p className="mb-4">
+                <strong>Expiration Date:</strong> {'test-expiration-date'}
+            </p>
+            <CustomButton onClick={() => router.push('/inventory')}>
+                Back to Inventory
+            </CustomButton>
+        </div>
+    );
+
 }

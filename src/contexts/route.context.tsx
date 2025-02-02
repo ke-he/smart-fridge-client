@@ -18,17 +18,17 @@ interface Tab {
 }
 
 interface RouteContextType {
-  activeTabId: string | null; // Store only the ID
-  activeTab: Tab | null; // Derived from ID
+  activeTabId: string | null;
+  activeTab: Tab | null;
   pathname: string;
-  setActiveTabId: (id: string | null) => void; // Setter for ID only
+  setActiveTabId: (id: string | null) => void;
   tabs: Tab[];
 }
 
-// Create context
+// Route Context erstellen
 const RouteContext = createContext<RouteContextType | undefined>(undefined);
 
-// Tabs Configuration
+// Tabs für Navigation
 const tabs: Tab[] = [
   { name: 'Home', icon: <Home />, id: 'home', path: '/' },
   { name: 'Inventory', icon: <List />, id: 'inventory', path: '/inventory' },
@@ -40,29 +40,29 @@ export const RouteProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const [activeTabId, setActiveTabId] = useState<string | null>(null);
 
-  // Update activeTabId based on pathname
+  // Beim Laden den aktiven Tab aus URL setzen
   useEffect(() => {
     const currentTab = tabs.find((tab) => tab.path === pathname);
     setActiveTabId(currentTab ? currentTab.id : null);
   }, [pathname]);
 
-  // Derive the activeTab object from activeTabId
+  // Aktiven Tab aus der ID ableiten
   const activeTab = activeTabId
-    ? tabs.find((tab) => tab.id === activeTabId) || null
-    : null;
+      ? tabs.find((tab) => tab.id === activeTabId) || null
+      : null;
 
   return (
-    <RouteContext.Provider
-      value={{
-        activeTabId,
-        activeTab,
-        pathname,
-        setActiveTabId,
-        tabs,
-      }}
-    >
-      {children}
-    </RouteContext.Provider>
+      <RouteContext.Provider
+          value={{
+            activeTabId,
+            activeTab,
+            pathname,
+            setActiveTabId,
+            tabs,
+          }}
+      >
+        {children}
+      </RouteContext.Provider>
   );
 };
 
