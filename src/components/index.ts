@@ -8,7 +8,5 @@ export * from './ui/select';
 export * from './ui/dropdown-menu';
 export * from './ui/separator';
 export * from './ui/number-picker';
-export * from './custom/item/item-type-select';
 export * from './custom/theme/theme-toggle';
 export * from './custom/theme/theme-provider';
-

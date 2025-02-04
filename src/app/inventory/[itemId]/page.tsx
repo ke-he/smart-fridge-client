@@ -14,9 +14,7 @@ export default function ItemDetail() {
   const [item, setItem] = useState<ItemsDto | null>(null);
 
   useEffect(() => {
-    console.log('itemId', itemId);
     if (itemId?.length && items) {
-      console.log('itemId', itemId);
       const foundItem = items.find((i) => i.id === parseInt(itemId[0]));
       if (foundItem) {
         setItem(foundItem);
@@ -24,33 +22,32 @@ export default function ItemDetail() {
         router.replace('/404');
       }
     }
-  }, [itemId, items, router]);
+  }, [itemId, items]);
 
   if (!item) {
     return null;
   }
 
-    return (
-        <div className="p-6">
-            <h1 className="text-4xl font-bold mb-6">{item.name}</h1>
-            <img
-                src={'/placeholder.png'}
-                alt={item.name}
-                className="w-full h-48 object-cover rounded-lg mb-6"
-            />
-            <p className="mb-2">
-                <strong>Type:</strong> {item.item_type_id}
-            </p>
-            <p className="mb-2">
-                <strong>Quantity:</strong> {'test-quantity'}
-            </p>
-            <p className="mb-4">
-                <strong>Expiration Date:</strong> {'test-expiration-date'}
-            </p>
-            <CustomButton onClick={() => router.push('/inventory')}>
-                Back to Inventory
-            </CustomButton>
-        </div>
-    );
-
+  return (
+    <div className="p-6">
+      <h1 className="text-4xl font-bold mb-6">{item.name}</h1>
+      <img
+        src={'/placeholder.png'}
+        alt={item.name}
+        className="w-full h-48 object-cover rounded-lg mb-6"
+      />
+      <p className="mb-2">
+        <strong>Type:</strong> {item.item_type_id}
+      </p>
+      <p className="mb-2">
+        <strong>Quantity:</strong> {'test-quantity'}
+      </p>
+      <p className="mb-4">
+        <strong>Expiration Date:</strong> {'test-expiration-date'}
+      </p>
+      <CustomButton onClick={() => router.push('/inventory')}>
+        Back to Inventory
+      </CustomButton>
+    </div>
+  );
 }
