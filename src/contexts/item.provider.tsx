@@ -1,8 +1,11 @@
-import { ItemTable, ItemTypeTable } from '@lib/types';
+import {
+  // ItemTable,
+  ItemTypeTable,
+} from '@lib/types';
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
-  addItem,
+  // addItem,
   getItems,
   getItemTypes,
   getItemsNearExpiry,
@@ -17,7 +20,7 @@ interface ItemContext {
   itemsNearExpiry: ItemsDto[];
   itemsLastAdded: ItemsDto[];
   loadItems: (search?: ItemsDtoFilter) => Promise<ItemsDto[]>;
-  addItem: (item: Omit<ItemTable, 'id'>) => Promise<void>;
+  // addItem: (item: Omit<ItemTable, 'id'>) => Promise<void>;
   // increaseItem: (id: number) => Promise<void>;
   types: ItemTypeTable[];
   loadItemTypes: () => Promise<ItemTypeTable[]>;
@@ -30,7 +33,7 @@ export const ItemContext = createContext<ItemContext>({
   itemsNearExpiry: [],
   itemsLastAdded: [],
   loadItems: async () => [],
-  addItem: async () => {},
+  // addItem: async () => {},
   // increaseItem: async () => {},
   types: [],
   loadItemTypes: async () => [],
@@ -50,10 +53,10 @@ const ItemProvider = ({ children }: AppProviderArgs) => {
     return items;
   };
 
-  const _addItem = async (item: Omit<ItemTable, 'id'>) => {
-    await addItem(item);
-    await _loadItems();
-  };
+  // const _addItem = async (item: Omit<ItemTable, 'id'>) => {
+  //   // await addItem(item);
+  //   await _loadItems();
+  // };
   //
   // const _increaseItem = async (id: number) => {
   //   await increaseItem(id);
@@ -81,6 +84,8 @@ const ItemProvider = ({ children }: AppProviderArgs) => {
   useEffect(() => {
     _loadItems().then();
     loadItemTypes().then();
+    loadItemsNearExpiry().then();
+    loadItemsLastAdded().then();
   }, []);
 
   return (
@@ -90,7 +95,7 @@ const ItemProvider = ({ children }: AppProviderArgs) => {
         itemsNearExpiry: itemsNearExpiry,
         itemsLastAdded: itemsLastAdded,
         loadItems: _loadItems,
-        addItem: _addItem,
+        // addItem: _addItem,
         // increaseItem: _increaseItem,
         types: types,
         loadItemTypes: loadItemTypes,

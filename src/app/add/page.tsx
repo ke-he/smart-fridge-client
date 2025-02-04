@@ -21,24 +21,25 @@ export default function Add() {
   const [model, setModel] = useState<ObjectDetection | null>(null);
 
   useEffect(() => {
-    const loadModel = async () => {
-      try {
-        const loadedModel = await cocoSsd.load();
-        setModel(loadedModel);
-      } catch (error) {
-        console.error('Error loading model:', error);
-      }
-    };
-    loadModel();
-    handleOpenCamera('barcode');
+    setMode('barcode');
   }, []);
+
+  useEffect(() => {
+    if (mode === 'manual' && !model) {
+      cocoSsd
+        .load()
+        .then(setModel)
+        .catch((error) => {
+          console.error('Error loading model:', error);
+        });
+    }
+  }, [mode]);
 
   const handleSubmit = async () => {
     if (!name.trim() || !expirationDate || !createdBy) {
       alert('Please fill out all fields!');
       return;
     }
-
     setLoading(true);
 
     try {
@@ -48,36 +49,32 @@ export default function Add() {
         expiration_date: expirationDate.toISOString(),
         created_by: createdBy,
       });
-
       alert('Item added successfully!');
       setName('');
       setItemTypeId(1);
       setExpirationDate(null);
     } catch (error) {
-      console.error('Error whiles adding item:', error);
+      console.error('Error while adding item:', error);
       alert('An error occurred, please try again');
     } finally {
       setLoading(false);
     }
   };
 
-  const detectObjects = async (video: HTMLVideoElement) => {
-    if (!model) return;
+  const detectObjects = async () => {
+    if (!model || !videoRef.current) return;
 
-    const predictions = await model.detect(video);
-
+    const predictions = await model.detect(videoRef.current);
     if (predictions.length > 0) {
-      setName('Object: ' + predictions[0].class);
+      setName(predictions[0].class);
     } else {
       setName('No object detected');
     }
-    setShowCamera(false);
+    handleCloseCamera();
   };
 
-  const handleCapture = async () => {
-    if (videoRef.current) {
-      await detectObjects(videoRef.current);
-    }
+  const handleCapture = () => {
+    detectObjects();
   };
 
   const handleOpenCamera = (scanMode: 'barcode' | 'manual') => {
@@ -94,15 +91,13 @@ export default function Add() {
       })
       .catch((err) => {
         console.error('Error accessing camera:', err);
-        alert(
-          'Camera access denied or unavailable. Please enable it in Settings.',
-        );
+        alert('Camera access denied or unavailable.');
       });
   };
 
   const handleCloseCamera = () => {
     setShowCamera(false);
-    if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+    if (videoRef.current?.srcObject instanceof MediaStream) {
       videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
     }
   };
@@ -196,17 +191,15 @@ width: 100%;
       `}</style>
 
       <h1>Add Item</h1>
-      <div className={'input-container'}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Item Name"
-            className={'add-input'}
-          />
-        </div>
+      <div>
+        <label>Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Item Name"
+          className="add-input"
+        />
       </div>
       <div className="button-group">
         <CustomButton
@@ -229,24 +222,22 @@ width: 100%;
             <BarcodeScannerComponent
               width={500}
               height={500}
-              onUpdate={(_err, result) => {
-                if (result) {
+              onUpdate={(err, result) => {
+                if (result?.getText()) {
                   setName(result.getText());
-                  setShowCamera(false);
-                } else {
-                  setName('No barcode detected');
+                  handleCloseCamera();
                 }
               }}
             />
           ) : (
             <div>
               <video
-                autoPlay={true}
-                muted={true}
-                playsInline={true}
                 ref={videoRef}
                 width={500}
                 height={500}
+                autoPlay
+                muted
+                playsInline
               />
               <div className="button-group">
                 <CustomButton className="filled-button" onClick={handleCapture}>
@@ -264,20 +255,18 @@ width: 100%;
         </div>
       )}
 
-      <div className={'input-container'}>
+      <div>
         <label>Expiration Date</label>
         <DatePicker
-          name={'Expiration Date'}
+          name="Expiration Date"
           date={expirationDate}
-          onChange={(date) => setExpirationDate(date)}
+          onChange={setExpirationDate}
           className="date-picker"
         />
       </div>
-      <div className={'input-container'}>
-        <CustomButton filled={true} onClick={handleSubmit} disabled={loading}>
-          {loading ? 'adding...' : 'Add'}
-        </CustomButton>
-      </div>
+      <CustomButton filled onClick={handleSubmit} disabled={loading}>
+        {loading ? 'Adding...' : 'Add'}
+      </CustomButton>
     </div>
   );
 }
