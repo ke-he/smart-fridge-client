@@ -57,60 +57,62 @@ const sortRecipes = (recipes: Recipe[], order: SortOrder) => {
 };
 
 export default function Recipes() {
-  const [filteredRecipes, setFilteredRecipes] = useState(() => {
-    return sortRecipes(recipes, SortOrder.ASC);
-  });
-  const [_, setSortOrder] = useState(SortOrder.ASC);
+    const [filteredRecipes, setFilteredRecipes] = useState(() => {
+        return sortRecipes(recipes, SortOrder.ASC);
+    });
+    const [_, setSortOrder] = useState(SortOrder.ASC);
 
-  const handleFormSubmit = (
-    values: Record<string, string | number | null | undefined>,
-  ) => {
-    const { search, quantity } = values;
+    const handleFormSubmit = (
+        values: Record<string, string | number | null | undefined>,
+    ) => {
+        const { search, quantity } = values;
 
-    let filtered = recipes;
+        let filtered = recipes;
 
-    if (search) {
-      const searchLower = search.toString().toLowerCase();
-      filtered = filtered.filter(
-        (recipe) =>
-          recipe.name.toLowerCase().includes(searchLower) ||
-          recipe.description.toLowerCase().includes(searchLower),
-      );
-    }
+        if (search) {
+            const searchLower = search.toString().toLowerCase();
+            filtered = filtered.filter(
+                (recipe) =>
+                    recipe.name.toLowerCase().includes(searchLower) ||
+                    recipe.description.toLowerCase().includes(searchLower),
+            );
+        }
 
-    if (quantity) {
-      const quantityNumber = Number(quantity);
-      if (!isNaN(quantityNumber)) {
-        filtered = filtered.filter((recipe) =>
-          recipe.ingredients.some(
-            (ingredient) => ingredient.quantity >= quantityNumber,
-          ),
-        );
-      }
-    }
+        if (quantity) {
+            const quantityNumber = Number(quantity);
+            if (!isNaN(quantityNumber)) {
+                filtered = filtered.filter((recipe) =>
+                    recipe.ingredients.some(
+                        (ingredient) => ingredient.quantity >= quantityNumber,
+                    ),
+                );
+            }
+        }
 
-    setFilteredRecipes(filtered);
-  };
+        setFilteredRecipes(filtered);
+    };
 
-  const handleSortChange = (order: SortOrder) => {
-    setSortOrder(order);
-    const sortedRecipes = sortRecipes(filteredRecipes, order);
-    setFilteredRecipes(sortedRecipes);
-  };
+    const handleSortChange = (order: SortOrder) => {
+        setSortOrder(order);
+        const sortedRecipes = sortRecipes(filteredRecipes, order);
+        setFilteredRecipes(sortedRecipes);
+    };
 
-  return (
-    <>
-      <div className="flex flex-col w-100 justify-center p-3 mb-5">
-        <div className="flex justify-between">
-          <Filter form={<MyForm />} onSubmit={handleFormSubmit} />
-          <Sort onSortChange={handleSortChange} />
-        </div>
-        <div className="grid grid-cols-2 mt-8 gap-4 justify-items-center overflow-y-auto">
-          {filteredRecipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
-          ))}
-        </div>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <div className="flex flex-col w-full justify-center p-3 mb-5">
+                <div className="flex justify-between">
+                    <Filter form={<MyForm />} onSubmit={handleFormSubmit} />
+                    <Sort onSortChange={handleSortChange} />
+                </div>
+                {/* Grid für Rezepte mit dynamischen Spalten */}
+                <div className="grid grid-cols-2 md:grid-cols-4 mt-8 gap-4 justify-items-center overflow-y-auto">
+                    {filteredRecipes.map((recipe) => (
+                        <RecipeCard key={recipe.id} recipe={recipe} />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
 }
+
