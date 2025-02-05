@@ -4,4 +4,5 @@ export interface ItemTable {
   id: number;
   name: string;
   item_type_id: number;
+  image_url: string | null;
 }

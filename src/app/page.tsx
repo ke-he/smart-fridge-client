@@ -40,6 +40,7 @@ export default function Home() {
                     item_type_id: item.item_type_id,
                     quantity: 3,
                     expiration_date: 'MAR 05',
+                    image_url: item.image_url,
                   },
                 }}
               />
@@ -66,6 +67,7 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
+                    image_url: item.image_url,
                   },
                 }}
               />
