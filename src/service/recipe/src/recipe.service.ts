@@ -1,16 +1,21 @@
 'use server';
 
 import { BaseService } from '@lib/common';
-import { Recipe } from '@/lib/types/misc/recipe.interface';
+import { Recipe, RecipeDetail } from '@/lib/types/misc/recipe.interface';
 
 export interface RecipeFilter {
   search_expression?: string;
+  recipe_id?: string;
 }
 
 interface FatSecterResponse {
   recipes: {
     recipe: Recipe[];
   };
+}
+
+interface FatSecretDetailResponse {
+  recipe: RecipeDetail;
 }
 
 class RecipeService extends BaseService {
@@ -36,8 +41,22 @@ class RecipeService extends BaseService {
 
     return response.recipes.recipe;
   }
+
+  public async getRecipe(search?: RecipeFilter) {
+    const response = await this.httpClient.post<FatSecretDetailResponse>(
+      `${this.endpoint}/detail`,
+      search,
+      true,
+    );
+
+    return response.recipe;
+  }
 }
 
 export const getRecipes = async (search?: RecipeFilter) => {
   return RecipeService.getInstance().getRecipes(search);
+};
+
+export const getRecipe = async (search?: RecipeFilter) => {
+  return RecipeService.getInstance().getRecipe(search);
 };
