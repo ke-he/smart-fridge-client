@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useItemContext } from '@/contexts/item.provider';
 import { ItemsDto } from '@service/item';
 import CustomButton from '@/components/custom/misc/button/custom-button';
+import Image from 'next/image';
 
 export default function ItemDetail() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function ItemDetail() {
         router.replace('/404');
       }
     }
-  }, [itemId, items]);
+  }, [itemId, items, router]);
 
   if (!item) {
     return null;
@@ -31,7 +32,9 @@ export default function ItemDetail() {
   return (
     <div className="p-6">
       <h1 className="text-4xl font-bold mb-6">{item.name}</h1>
-      <img
+      <Image
+        width={200}
+        height={200}
         src={'/placeholder.png'}
         alt={item.name}
         className="w-full h-48 object-cover rounded-lg mb-6"

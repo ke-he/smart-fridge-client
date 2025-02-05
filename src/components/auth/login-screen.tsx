@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/auth.provider';
 import CustomButton from '@/components/custom/misc/button/custom-button';
-
 export default function LoginScreen() {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
@@ -24,16 +23,20 @@ export default function LoginScreen() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-      }}
-    >
-      <style>{`
+    <>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+        }}
+      >
+        <style>{`
                 .input-container {
                     margin-top: 12px;
                 }
@@ -76,39 +79,46 @@ export default function LoginScreen() {
                 }
             `}</style>
 
-      <h1
-        style={{ textAlign: 'center', fontSize: '24px', marginBottom: '20px' }}
-      >
-        Login
-      </h1>
-
-      <form onSubmit={handleLogin} className="flex flex-col gap-4">
-        <div className="input-container">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            className="login-input"
-          />
-        </div>
-
-        <div className="input-container">
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="login-input"
-          />
-        </div>
-
-        {error && <p className="error-message">{error}</p>}
-
-        <CustomButton filled type="submit">
+        <h1
+          style={{
+            textAlign: 'center',
+            fontSize: '24px',
+            marginBottom: '20px',
+          }}
+        >
           Login
-        </CustomButton>
-      </form>
-    </div>
+        </h1>
+
+        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          <div className="input-container">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              className="login-input"
+            />
+          </div>
+
+          <div className="input-container">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="login-input"
+            />
+          </div>
+
+          {error && <p className="error-message">{error}</p>}
+
+          <CustomButton filled type="submit">
+            Login
+          </CustomButton>
+        </form>
+      </div>
+    </>
   );
 }
+
+import Head from 'next/head';

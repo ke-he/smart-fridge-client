@@ -48,21 +48,21 @@ export const RouteProvider = ({ children }: { children: ReactNode }) => {
 
   // Aktiven Tab aus der ID ableiten
   const activeTab = activeTabId
-      ? tabs.find((tab) => tab.id === activeTabId) || null
-      : null;
+    ? tabs.find((tab) => tab.id === activeTabId) || null
+    : null;
 
   return (
-      <RouteContext.Provider
-          value={{
-            activeTabId,
-            activeTab,
-            pathname,
-            setActiveTabId,
-            tabs,
-          }}
-      >
-        {children}
-      </RouteContext.Provider>
+    <RouteContext.Provider
+      value={{
+        activeTabId,
+        activeTab,
+        pathname,
+        setActiveTabId,
+        tabs,
+      }}
+    >
+      {children}
+    </RouteContext.Provider>
   );
 };
 

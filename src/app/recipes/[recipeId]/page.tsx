@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import recipes from '@/data/recipe';
 import { Recipe } from '@/lib/types/misc/recipe.interface';
 import CustomButton from '@/components/custom/misc/button/custom-button';
+import Image from 'next/image';
 
 export default function RecipeDetail() {
   const { recipeId } = useParams();
@@ -30,7 +31,9 @@ export default function RecipeDetail() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold">{recipe.name}</h1>
-      <img
+      <Image
+        width={200}
+        height={200}
         src={recipe.img_url || '/placeholder.png'}
         alt={recipe.name}
         className="w-full h-48 object-cover rounded-lg my-4"

@@ -3,6 +3,7 @@
 import { Recipe } from '@/lib/types/misc/recipe.interface';
 import styles from './recipe-card.module.css';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const router = useRouter();
@@ -14,7 +15,9 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
     <div onClick={handleRecipeClick} className={styles.recipeCard}>
       <div className={styles.imageContainer}>
-        <img
+        <Image
+          width={200}
+          height={200}
           src={recipe.img_url || '/placeholder.png'}
           alt={recipe.name}
           className={styles.image}

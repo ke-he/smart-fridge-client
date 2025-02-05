@@ -4,24 +4,23 @@ import next from 'next';
 import { readFileSync } from 'fs';
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const hostname = 'localhost';
+const port = 3000; // Change if needed
+
+const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
+// Load SSL Certificates
 const httpsOptions = {
-  key: readFileSync('./localhost-key.pem'),
-  cert: readFileSync('./localhost.pem'),
+  key: readFileSync('./localhost-key.pem'), // Path to private key
+  cert: readFileSync('./localhost.pem'), // Path to certificate
 };
 
 app.prepare().then(() => {
   createServer(httpsOptions, (req, res) => {
     const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl).then((r) => {
-      if (r) {
-        console.log(r);
-      }
-    });
-  }).listen(3000, (err) => {
-    if (err) throw err;
-    console.log('> Next.js running on https://localhost:3000');
+    handle(req, res, parsedUrl);
+  }).listen(port, hostname, () => {
+    console.log(`🚀 Next.js running on https://${hostname}:${port}`);
   });
 });

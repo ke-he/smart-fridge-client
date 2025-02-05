@@ -4,6 +4,7 @@ import styles from './item-card.module.css';
 import { ArrowRight } from 'lucide-react';
 import CustomButton from '../../misc/button/custom-button';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export interface ItemCardTypeSmall {
   id: number;
@@ -36,7 +37,9 @@ function ItemCardSmall({
 }) {
   return (
     <div onClick={routeCallback} className={styles.itemCardSmallWrapper}>
-      <img
+      <Image
+        width={50}
+        height={50}
         className={styles.itemCardSmallImage}
         src={param.img_url || '/placeholder.png'}
         alt={param.name}
@@ -66,7 +69,9 @@ function ItemCardBig({
   return (
     <div onClick={routeCallback} className={styles.itemCardBigWrapper}>
       <div className={styles.itemCardBigImageWrapper}>
-        <img
+        <Image
+          width={100}
+          height={100}
           className={styles.itemCardBigImage}
           src={param.img_url || '/placeholder.png'}
           alt={param.name}

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 import QRCode from 'react-qr-code';
 
 // IPv4 regex: Ensures each of the 4 segments is 0-255
-const ipv4Regex = /^(25[0-5]|2[0-4]\d|[01]?\d?\d)(\.(25[0-5]|2[0-4]\d|[01]?\d?\d)){3}$/;
+const ipv4Regex =
+  /^(25[0-5]|2[0-4]\d|[01]?\d?\d)(\.(25[0-5]|2[0-4]\d|[01]?\d?\d)){3}$/;
 
 export default function Add() {
   const [name, setName] = useState('');
@@ -21,7 +22,9 @@ export default function Add() {
     if (qrCodeRef.current) {
       const printWindow = window.open('', '_blank');
       if (printWindow) {
-        printWindow.document.write('<html><head><title>Print QR Code</title></head><body>');
+        printWindow.document.write(
+          '<html><head><title>Print QR Code</title></head><body>',
+        );
         printWindow.document.write(qrCodeRef.current.innerHTML);
         printWindow.document.write('</body></html>');
         printWindow.document.close();

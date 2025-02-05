@@ -8,7 +8,8 @@ import '@tensorflow/tfjs';
 import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 import CustomButton from '@/components/custom/misc/button/custom-button';
 import { ObjectDetection } from '@tensorflow-models/coco-ssd';
-import axios from 'axios'; // Import axios for API calls
+import axios from 'axios';
+import Image from 'next/image'; // Import axios for API calls
 
 export default function Add() {
   const [name, setName] = useState('');
@@ -309,7 +310,9 @@ export default function Add() {
 
       {!loadingProduct && productImage && (
         <div style={{ marginTop: '24px', textAlign: 'center' }}>
-          <img
+          <Image
+            width={200}
+            height={200}
             src={productImage}
             alt="Product"
             style={{ maxWidth: '100%', height: 'auto' }}
