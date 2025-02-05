@@ -12,7 +12,6 @@ import RecipeCard from '@/components/custom/recipe/card/recipe-card';
 const MyForm = () => (
   <>
     <div>
-      <label htmlFor="search">Search:</label>
       <input
         type="text"
         id="search"
@@ -24,7 +23,7 @@ const MyForm = () => (
           margin: '5px 0',
           boxSizing: 'border-box',
           border: '1px solid grey',
-          borderRadius: '4px',
+          borderRadius: '8px',
         }}
       />
     </div>
