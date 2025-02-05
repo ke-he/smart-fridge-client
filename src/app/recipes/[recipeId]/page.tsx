@@ -43,9 +43,10 @@ export default function RecipeDetail() {
       <p className="text-lg">{recipe.recipe_description}</p>
       <h2 className="text-xl font-semibold mt-6">Ingredients</h2>
       <ul className="list-disc pl-5">
-        {recipe.ingredients?.ingredient.map((ingredient) => (
-          <li key={ingredient.food_name}>
-            {ingredient.number_of_units} {ingredient.measurement_description}
+        {recipe.ingredients?.ingredient.map((ingredient, i) => (
+          <li key={i}>
+            <b>{ingredient.food_name}</b> / {ingredient.number_of_units}{' '}
+            {ingredient.measurement_description}
           </li>
         ))}
       </ul>
