@@ -50,10 +50,11 @@ export default function Filter({ form, onSubmit }: FilterProps) {
             position: strategy,
             zIndex: 1000,
             background: 'white',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-            padding: '10px',
+            borderRadius: '8px',
+            boxShadow: '0 0px 12px rgba(0, 0, 0, 0.2)',
+            padding: '15px',
+            marginTop: '10px',
+
           }}
         >
           <form
@@ -65,10 +66,10 @@ export default function Filter({ form, onSubmit }: FilterProps) {
               type="submit"
               style={{
                 padding: '10px',
-                backgroundColor: 'lightblue',
+                backgroundColor: '#1E2b19',
                 color: 'white',
                 border: 'none',
-                borderRadius: '4px',
+                borderRadius: '8px',
                 cursor: 'pointer',
               }}
             >
