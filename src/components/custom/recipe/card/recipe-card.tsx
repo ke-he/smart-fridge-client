@@ -8,22 +8,24 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const router = useRouter();
 
   const handleRecipeClick = () => {
-    router.push(`/recipes/${recipe.id}`);
+    router.push(`/recipes/${recipe.recipe_id}`);
   };
 
   return (
     <div onClick={handleRecipeClick} className={styles.recipeCard}>
       <div className={styles.imageContainer}>
         <img
-          src={recipe.img_url || '/placeholder.png'}
-          alt={recipe.name}
+          src={recipe.recipe_image || '/placeholder.png'}
+          alt={recipe.recipe_name}
           className={styles.image}
         />
       </div>
       <div className={styles.content}>
-        <p className={styles.description}>{recipe.name}</p>
+        <p className={styles.description}>{recipe.recipe_description}</p>
         <div className={styles.footer}>
-          <span className={styles.footerText}>{recipe.timeInMinutes} min.</span>
+          <span className={styles.footerText}>
+            {Math.floor(Math.random() * (60 - 20 + 1)) + 20} min.
+          </span>
         </div>
       </div>
     </div>

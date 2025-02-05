@@ -7,11 +7,20 @@ export interface Ingredient {
 }
 
 export interface Recipe {
-  id: number;
-  name: string;
-  description: string;
-  img_url?: string;
-  ingredients: Ingredient[];
-  steps: string[];
-  timeInMinutes: number;
+  recipe_id: string;
+  recipe_name: string;
+  recipe_description: string;
+  recipe_image: string;
+  recipe_nutrition: {
+    calories: string;
+    carbohydrate: string;
+    fat: string;
+    protein: string;
+  };
+  recipe_ingredients: {
+    ingredient: string[];
+  };
+  recipe_types: {
+    recipe_type: string[];
+  };
 }
