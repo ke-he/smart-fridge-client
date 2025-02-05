@@ -5,36 +5,35 @@ import { useAuth } from '@/contexts/auth.provider';
 import CustomButton from '@/components/custom/misc/button/custom-button';
 
 export default function LoginScreen() {
-    const { login } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
 
-        const VALID_USER = { email: 'test@example.com', password: '123456' };
+    const VALID_USER = { email: 'test@example.com', password: '123456' };
 
-        if (email === VALID_USER.email && password === VALID_USER.password) {
-            login();
-        } else {
-            setError('Invalid email or password');
-        }
-    };
+    if (email === VALID_USER.email && password === VALID_USER.password) {
+      login();
+    } else {
+      setError('Invalid email or password');
+    }
+  };
 
-    return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh'
-            }}
-
-        >
-            <style>{`
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+      }}
+    >
+      <style>{`
                 .input-container {
                     margin-top: 12px;
                 }
@@ -77,35 +76,39 @@ export default function LoginScreen() {
                 }
             `}</style>
 
-            <h1 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '20px' }}>Login</h1>
+      <h1
+        style={{ textAlign: 'center', fontSize: '24px', marginBottom: '20px' }}
+      >
+        Login
+      </h1>
 
-            <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                <div className="input-container">
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email"
-                        className="login-input"
-                    />
-                </div>
-
-                <div className="input-container">
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                        className="login-input"
-                    />
-                </div>
-
-                {error && <p className="error-message">{error}</p>}
-
-                <CustomButton filled type="submit">
-                    Login
-                </CustomButton>
-            </form>
+      <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <div className="input-container">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="login-input"
+          />
         </div>
-    );
+
+        <div className="input-container">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="login-input"
+          />
+        </div>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <CustomButton filled type="submit">
+          Login
+        </CustomButton>
+      </form>
+    </div>
+  );
 }

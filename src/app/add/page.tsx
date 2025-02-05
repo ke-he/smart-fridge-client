@@ -18,7 +18,7 @@ export default function Add() {
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false); // New state for API loading spinner
   const [showCamera, setShowCamera] = useState(false);
-  const [mode, setMode] = useState<'barcode' | 'manual' | null>(null);
+  const [mode, setMode] = useState<'barcode' | 'manual' | null>('barcode');
   const [productImage, setProductImage] = useState<string | null>(null); // State to store the product image URL
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [model, setModel] = useState<ObjectDetection | null>(null);
@@ -36,7 +36,7 @@ export default function Add() {
           console.error('Error loading model:', error);
         });
     }
-  }, [mode]);
+  }, [mode, model]);
 
   const handleSubmit = async () => {
     if (!name.trim() || !expirationDate || !createdBy) {
@@ -110,7 +110,7 @@ export default function Add() {
     setLoadingProduct(true);
     try {
       const response = await axios.get(
-        `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
+        `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`,
       );
       const data = response.data;
       if (data.status === 1) {
@@ -223,7 +223,6 @@ export default function Add() {
         }
       `}</style>
 
-      <h1>Add Item</h1>
       <div>
         <label>Name</label>
         <input
@@ -250,7 +249,7 @@ export default function Add() {
       </div>
 
       {showCamera && (
-        <div>
+        <div className="mt-4">
           {mode === 'barcode' ? (
             <BarcodeScannerComponent
               width={500}
@@ -263,7 +262,7 @@ export default function Add() {
               }}
             />
           ) : (
-            <div>
+            <div className="mt-4">
               <video
                 ref={videoRef}
                 width={500}
@@ -288,7 +287,7 @@ export default function Add() {
         </div>
       )}
 
-      <div>
+      <div className="mt-4 mb-4">
         <label>Expiration Date</label>
         <DatePicker
           name="Expiration Date"
@@ -308,7 +307,6 @@ export default function Add() {
         </div>
       )}
 
-      {/* Display the product image extracted from the API call */}
       {!loadingProduct && productImage && (
         <div style={{ marginTop: '24px', textAlign: 'center' }}>
           <img
