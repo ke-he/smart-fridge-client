@@ -27,12 +27,11 @@ export default function ItemDetail() {
   if (!item) {
     return null;
   }
-
   return (
     <div className="p-6">
       <h1 className="text-4xl font-bold mb-6">{item.name}</h1>
       <img
-        src={'/placeholder.png'}
+        src={item.image_url || '/placeholder.png'}
         alt={item.name}
         className="w-full h-48 object-cover rounded-lg mb-6"
       />

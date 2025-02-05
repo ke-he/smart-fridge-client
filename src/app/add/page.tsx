@@ -8,7 +8,7 @@ import '@tensorflow/tfjs';
 import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 import CustomButton from '@/components/custom/misc/button/custom-button';
 import { ObjectDetection } from '@tensorflow-models/coco-ssd';
-import axios from 'axios'; // Import axios for API calls
+import axios from 'axios';
 
 export default function Add() {
   const [name, setName] = useState('');
@@ -16,10 +16,10 @@ export default function Add() {
   const [expirationDate, setExpirationDate] = useState<Date | null>(new Date());
   const [createdBy] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [loadingProduct, setLoadingProduct] = useState(false); // New state for API loading spinner
+  const [loadingProduct, setLoadingProduct] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const [mode, setMode] = useState<'barcode' | 'manual' | null>('barcode');
-  const [productImage, setProductImage] = useState<string | null>(null); // State to store the product image URL
+  const [productImage, setProductImage] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [model, setModel] = useState<ObjectDetection | null>(null);
 
@@ -38,6 +38,15 @@ export default function Add() {
     }
   }, [mode, model]);
 
+  const [autoSubmit, setAutoSubmit] = useState(false);
+
+  useEffect(() => {
+    if (autoSubmit && name.trim()) {
+      handleSubmit();
+      setAutoSubmit(false);
+    }
+  }, [name, expirationDate]);
+
   const handleSubmit = async () => {
     if (!name.trim() || !expirationDate || !createdBy) {
       alert('Please fill out all fields!');
@@ -51,12 +60,13 @@ export default function Add() {
         item_type_id: itemTypeId,
         expiration_date: expirationDate.toISOString(),
         created_by: createdBy,
+        image_url: productImage,
       });
       alert('Item added successfully!');
       setName('');
       setItemTypeId(1);
       setExpirationDate(null);
-      setProductImage(null); // Clear image after submission
+      setProductImage(null);
     } catch (error) {
       console.error('Error while adding item:', error);
       alert('An error occurred, please try again');
@@ -114,14 +124,16 @@ export default function Add() {
       );
       const data = response.data;
       if (data.status === 1) {
-        setName(data.product.product_name_en);
-        const imageUrl =
+        setName(data.product.product_name_en || 'Unknown Product');
+        setProductImage(
           data.product.selected_images?.front?.display?.de ||
-          data.product.image_front_url;
-        setProductImage(imageUrl);
+          data.product.image_front_url
+        );
       } else {
-        alert('Product not found');
+        alert('Produkt nicht gefunden');
       }
+      setExpirationDate(new Date(Date.now() + 14 * 24 * 60 * 60 * 1000));
+      setAutoSubmit(true);
     } catch (error) {
       console.error('Error fetching product data:', error);
       alert('Error fetching product data');

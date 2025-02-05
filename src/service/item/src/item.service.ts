@@ -4,6 +4,7 @@ import { ItemTable, ItemTypeTable } from '@lib/types';
 import { BaseService } from '@lib/common';
 
 export interface ItemsDto extends ItemTable {
+  image_url: any;
   count: number;
 }
 
@@ -71,6 +72,7 @@ export const getItemsLastAdded = async () => {
 
 export const addItem = async (item: {
   item_type_id: number;
+  image_url: string | null;
   name: string;
   expiration_date: string;
   created_by: number;
