@@ -98,7 +98,10 @@ export default function Recipes() {
       {isLoading ? (
         <p className="text-center mt-5">Loading...</p>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 mt-8 gap-4 justify-items-center overflow-y-auto">
+        <div
+          style={{ paddingBottom: '120px' }}
+          className="grid grid-cols-2 md:grid-cols-4 mt-8 gap-4 justify-items-center overflow-y-auto"
+        >
           {filteredRecipes.map((recipe) => (
             <RecipeCard key={recipe.recipe_id} recipe={recipe} />
           ))}

@@ -39,7 +39,7 @@ export default function Home() {
                     name: item.name,
                     item_type_id: item.item_type_id,
                     quantity: 3,
-                    expiration_date: 'MAR 05',
+                    expiration_date: 'FEB 08',
                     image_url: item.image_url,
                   },
                 }}
@@ -56,7 +56,10 @@ export default function Home() {
         <h2 className="font-bold text-xl mb-3">Last added</h2>
 
         {/* Mobile: Liste | Desktop: Grid */}
-        <div className="flex flex-col md:grid md:grid-cols-4 gap-4">
+        <div
+          style={{ paddingBottom: '120px' }}
+          className="flex flex-col md:grid md:grid-cols-4 gap-4"
+        >
           {itemsLastAdded.length > 0 ? (
             itemsLastAdded.map((item) => (
               <ItemCard

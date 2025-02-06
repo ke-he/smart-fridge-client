@@ -26,7 +26,10 @@ export default function Inventory() {
             }}
           />
         </div>
-        <div className="flex flex-col gap-4 mt-8 overflow-y-auto">
+        <div
+          style={{ paddingBottom: '120px' }}
+          className="flex flex-col gap-4 mt-8 overflow-y-auto"
+        >
           {items.length > 0 ? (
             items.map((item) => (
               <ItemCard
