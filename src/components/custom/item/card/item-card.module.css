@@ -7,7 +7,9 @@
 }
 
 .itemCardSmallImage {
+    height: 6rem;
     width: 6rem;
+    object-fit: cover;
     background-color: var(--custom-green-light);
     border-bottom-left-radius: 16px;
     border-top-left-radius: 16px;
