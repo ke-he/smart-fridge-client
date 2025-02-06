@@ -39,7 +39,6 @@ export default function Filter({ form, onSubmit }: FilterProps) {
       <ActionButton
         label={'Filter'}
         icon={<ListFilter />}
-        badgeCount={3}
         onClick={handleClick}
         ref={refs.setReference}
       />
@@ -54,7 +53,6 @@ export default function Filter({ form, onSubmit }: FilterProps) {
             boxShadow: '0 0px 12px rgba(0, 0, 0, 0.2)',
             padding: '15px',
             marginTop: '10px',
-
           }}
         >
           <form
